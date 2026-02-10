@@ -139,7 +139,7 @@
     .facebook-icon:hover{filter:drop-shadow(0 6px 12px rgba(24,119,242,0.5));}
     .instagram-icon:hover{filter:drop-shadow(0 6px 12px rgba(188,48,129,0.5));}
     @keyframes pulse-social{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-    .social-icons-warning{animation:pulse-social 1.5s ease-in-out infinite;}
+    .social-icon-warning{animation:pulse-social 1.5s ease-in-out infinite;}
     .hidden{ display:none; }
     @media (max-width:600px){
       .photo-container{ width:260px; height:260px; }
@@ -472,7 +472,7 @@
         if(id === 'stillno'){
           setTimeout(function(){
             document.querySelectorAll('.social-icon').forEach(function(icon){
-              icon.classList.add('social-icons-warning');
+              icon.classList.add('social-icon-warning');
             });
           }, 500);
         }
