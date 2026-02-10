@@ -56,8 +56,8 @@
     .btn{display:inline-block; padding:14px 28px; border-radius:14px; font-weight:800; text-decoration:none; cursor:pointer; transition: all 0.3s ease; font-size: 16px; border:none; font-family: inherit;}
     .btn-yes{background:linear-gradient(135deg, var(--pink), var(--pink-light)); color:#fff; box-shadow:0 8px 20px rgba(255,90,134,.2);}
     .btn-yes:hover{transform: scale(1.05); box-shadow:0 10px 25px rgba(255,90,134,.3);}
-    .btn-no{background:#f5f5f5; color:#666; opacity:.95; border: 2px solid #e0e0e0;}
-    .btn-no:hover{background:#ebebeb; transform: scale(1.02);}
+    .btn-no{position:relative; background:#f5f5f5; color:#666; opacity:.95; border: 2px solid #e0e0e0; transition: all 0.3s ease;}
+    .btn-no:hover{background:#ebebeb; transform: scale(1.02); cursor:pointer;}
     .btn-danger{background:linear-gradient(135deg, #ff0000, #dc3545); color:#fff; box-shadow:0 8px 20px rgba(255,0,0,.3);}
     .btn-danger:hover{transform: scale(1.05); box-shadow:0 10px 25px rgba(255,0,0,.4);}
     .excellent-view{ text-align:center; padding:20px 24px 50px; }
@@ -135,6 +135,14 @@
     .funny-content li{margin:12px 0; font-size:16px; color:#555; line-height:1.6;}
     .social-icons{display:flex; gap:12px; justify-content:center; margin:12px 0; font-size:24px;}
     .hidden{ display:none; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .btn-no.shaking {
+      animation: shake 0.5s;
+    }
     @media (max-width:600px){
       .photo-container{ width:260px; height:260px; }
       header{flex-direction:column; gap:12px;}
@@ -145,6 +153,10 @@
       h2 { font-size: 24px; }
       .love { font-size: 18px; padding: 10px 20px; }
       .funny-choices{grid-template-columns:1fr;}
+      .btn-no {
+        min-width: 80px;
+        min-height: 40px;
+      }
     }
   </style>
 </head>
@@ -541,6 +553,97 @@
       if(floatingTimer) clearInterval(floatingTimer);
       floatingTimer = null;
     }
+    
+    // NO button improvements
+    let noButtonClickAttempts = 0;
+    const noMessages = [
+      'Tu es sûr(e) ? 🥺',
+      'Mais pourquoi ? 😢',
+      'Réfléchis bien... 💭',
+      'Allez, dis OUI ! 💕',
+      'S\'il te plaît ? 🙏',
+      'Ne fais pas ça... 😭'
+    ];
+    const noMessagesEn = [
+      'Are you sure? 🥺',
+      'But why? 😢',
+      'Think carefully... 💭',
+      'Come on, say YES! 💕',
+      'Please? 🙏',
+      'Don\'t do this... 😭'
+    ];
+    let messageIndex = 0;
+    
+    function makeNoButtonMove() {
+      const btnNo = document.getElementById('btn-no');
+      
+      btnNo.addEventListener('mouseenter', function(e) {
+        shrinkNoButton();
+        showNoMessage();
+        
+        const maxX = window.innerWidth - btnNo.offsetWidth - 100;
+        const maxY = window.innerHeight - btnNo.offsetHeight - 100;
+        
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+        
+        btnNo.style.position = 'fixed';
+        btnNo.style.left = randomX + 'px';
+        btnNo.style.top = randomY + 'px';
+        btnNo.style.transition = 'all 0.3s ease';
+      });
+      
+      btnNo.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        shrinkNoButton();
+        showNoMessage();
+        
+        const maxX = window.innerWidth - btnNo.offsetWidth - 50;
+        const maxY = window.innerHeight - btnNo.offsetHeight - 50;
+        
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+        
+        btnNo.style.position = 'fixed';
+        btnNo.style.left = randomX + 'px';
+        btnNo.style.top = randomY + 'px';
+      });
+    }
+    
+    function shrinkNoButton() {
+      const btnNo = document.getElementById('btn-no');
+      noButtonClickAttempts++;
+      
+      const newSize = Math.max(0.3, 1 - (noButtonClickAttempts * 0.1));
+      btnNo.style.transform = 'scale(' + newSize + ')';
+      
+      if (noButtonClickAttempts >= 5) {
+        btnNo.textContent = '😢';
+        btnNo.style.fontSize = '10px';
+      }
+      
+      growYesButton();
+    }
+    
+    function showNoMessage() {
+      const subtitle = document.getElementById('q-subtitle');
+      const messages = currentLang === 'fr' ? noMessages : noMessagesEn;
+      const baseMessage = currentLang === 'fr' 
+        ? '<br/>Clique sur OUI pour découvrir ce que j\'ai dans le cœur ❤️'
+        : '<br/>Click YES to discover what\'s in my heart ❤️';
+      subtitle.innerHTML = messages[messageIndex] + baseMessage;
+      messageIndex = (messageIndex + 1) % messages.length;
+    }
+    
+    function growYesButton() {
+      const btnYes = document.getElementById('btn-yes');
+      const currentScale = 1 + (noButtonClickAttempts * 0.15);
+      btnYes.style.transform = 'scale(' + Math.min(currentScale, 2) + ')';
+      btnYes.style.transition = 'transform 0.3s ease';
+    }
+    
+    // Initialize NO button behavior
+    makeNoButtonMove();
   </script>
 </body>
 </html>
