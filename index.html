@@ -8,57 +8,142 @@
   <style>
     :root{
       --pink:#ff5a86;
+      --pink-light:#ff8fab;
+      --pink-dark:#d63c6c;
       --bg1:#fff0f6;
       --bg2:#fff7fb;
+      --shadow: 0 14px 40px rgba(255,90,134,.15);
     }
-    html,body{height:100%; margin:0; font-family:Arial, Helvetica, sans-serif; background:linear-gradient(180deg,var(--bg1),var(--bg2)); color:#222;}
+    html,body{height:100%; margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:#222;}
+    
+    /* Animated background hearts */
+    body::before {
+      content: '💕';
+      position: fixed;
+      top: 10%;
+      left: 5%;
+      font-size: 40px;
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+    body::after {
+      content: '❤️';
+      position: fixed;
+      bottom: 15%;
+      right: 8%;
+      font-size: 35px;
+      opacity: 0.1;
+      animation: float 7s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
     .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
-    .card{width:100%; max-width:900px; background:#fff; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,.06); overflow:hidden;}
-    header{padding:16px 20px; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg, rgba(255,90,134,0.04), transparent);}
-    header h1{margin:0; color:var(--pink); font-size:18px;}
-    nav a{margin-left:10px; text-decoration:none; padding:8px 12px; border-radius:8px; font-weight:700; color:#fff; background:var(--pink);}
+    .card{width:100%; max-width:950px; background:#fff; border-radius:20px; box-shadow:var(--shadow); overflow:hidden; border: 3px solid rgba(255,90,134,0.1);}
+    
+    header{padding:20px 28px; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(120deg, rgba(255,90,134,0.08), rgba(255,139,171,0.05));}
+    header h1{margin:0; color:var(--pink); font-size:22px; font-weight:800; text-shadow: 0 2px 4px rgba(255,90,134,0.1);}
+    header h1::before { content: '💌 '; }
+    nav a{margin-left:12px; text-decoration:none; padding:10px 18px; border-radius:12px; font-weight:700; color:#fff; background:linear-gradient(135deg, var(--pink), var(--pink-light)); transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(255,90,134,0.2);}
+    nav a:hover{transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,90,134,0.3);}
 
-    main{padding:28px;}
+    main{padding:40px 28px;}
 
     /* Email preview */
-    .email-preview{max-width:700px; margin:0 auto; text-align:center; padding:22px; border-radius:12px; background:linear-gradient(180deg,#fff,#fff7fb);}
-    .title{color:var(--pink); font-size:22px; margin:0 0 8px;}
-    .subtitle{color:#444; margin:0 0 16px;}
+    .email-preview{max-width:750px; margin:0 auto; text-align:center; padding:32px; border-radius:16px; background:linear-gradient(180deg,#fff,#fff7fb); border: 2px dashed rgba(255,90,134,0.2);}
+    .title{color:var(--pink); font-size:32px; margin:0 0 12px; font-weight:800; text-shadow: 0 2px 8px rgba(255,90,134,0.15);}
+    .subtitle{color:#555; margin:0 0 24px; font-size:18px; line-height:1.6;}
 
-    .buttons{display:flex; justify-content:center; gap:12px; margin-top:12px;}
-    .btn{display:inline-block; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; cursor:pointer;}
-    .btn-yes{background:var(--pink); color:#fff; box-shadow:0 8px 18px rgba(255,90,134,.14);}
-    .btn-no{background:#efefef; color:#444; opacity:.95;}
+    .buttons{display:flex; justify-content:center; gap:16px; margin-top:20px; flex-wrap: wrap;}
+    .btn{display:inline-block; padding:14px 28px; border-radius:14px; font-weight:800; text-decoration:none; cursor:pointer; transition: all 0.3s ease; font-size: 16px;}
+    .btn-yes{background:linear-gradient(135deg, var(--pink), var(--pink-light)); color:#fff; box-shadow:0 8px 20px rgba(255,90,134,.2); border: none;}
+    .btn-yes:hover{transform: scale(1.05); box-shadow:0 10px 25px rgba(255,90,134,.3);}
+    .btn-no{background:#f5f5f5; color:#666; opacity:.95; border: 2px solid #e0e0e0;}
+    .btn-no:hover{background:#ebebeb; transform: scale(1.02);}
 
     /* Yes view */
-    .yes{ text-align:center; padding:10px 24px 40px; }
-    .photo{ width:320px; height:320px; object-fit:cover; border-radius:16px; border:8px solid #fff; display:block; margin:12px auto; box-shadow:0 12px 30px rgba(214,51,108,.12); }
-    h2{ color:var(--pink); margin:10px 0 6px; }
-    .love{ display:inline-block; font-weight:800; color:var(--pink); font-size:20px; padding:10px 16px; border-radius:999px; background:rgba(255,90,134,.06); animation:heartbeat 1.6s infinite; }
-    @keyframes heartbeat{0%{transform:scale(1)}25%{transform:scale(1.08)}50%{transform:scale(1)}75%{transform:scale(1.06)}100%{transform:scale(1)}}
+    .yes{ text-align:center; padding:20px 24px 50px; }
+    
+    /* Heart-shaped photo container */
+    .photo-container {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      margin: 20px auto;
+      display: inline-block;
+    }
+    
+    .photo-heart-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--pink), var(--pink-light));
+      border-radius: 20px;
+      transform: rotate(0deg);
+      box-shadow: 0 15px 35px rgba(255,90,134,.25);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .photo {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 8px solid #fff;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+      z-index: 2;
+    }
+    
+    h2{ color:var(--pink); margin:20px 0 10px; font-size: 28px; font-weight: 800; }
+    .love{ display:inline-block; font-weight:800; color:#fff; font-size:22px; padding:12px 24px; border-radius:999px; background:linear-gradient(135deg, var(--pink), var(--pink-light)); animation:heartbeat 1.6s infinite; box-shadow: 0 8px 20px rgba(255,90,134,0.3); margin: 10px 0;}
+    @keyframes heartbeat{0%{transform:scale(1)}25%{transform:scale(1.08)}50%{transform:scale(1)}75%{transform:scale(1.06)}100%{transform:scale(1)}
 
-    .controls{ margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .controls{ margin-top:20px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
 
     /* floating hearts */
     .floating{ position:fixed; left:0; top:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:999; }
     .heart{ position:absolute; transform:rotate(-45deg); background:var(--pink); border-radius:4px 4px 0 0; box-shadow:0 6px 12px rgba(214,51,108,.18); }
-    .heart:before,.heart:after{ content:""; position:absolute; background:var(--pink); border-radius:50%; }
+    .heart:before,.heart:after{ content:""; position:absolute; background:var(--pink); border-radius:50%; width:100%; height:100%;}
     .heart:before{ top:-50%; left:0; } .heart:after{ left:50%; top:0; }
 
     /* No view */
-    .no{ text-align:center; padding:10px 24px 40px; }
-    .threat{ display:inline-block; font-weight:800; color:#b02a59; background:linear-gradient(90deg, rgba(176,42,89,.06), transparent); padding:14px; border-radius:10px; animation:waggle 2.4s ease-in-out infinite; }
-    @keyframes waggle{0%{transform:translateX(0)}25%{transform:translateX(-4px)}50%{transform:translateX(0)}75%{transform:translateX(4px)}100%{transform:translateX(0)}}
-    .choices{ margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-    .choice-btn{ padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-weight:700; }
-    .choice-primary{ background:#ffd1dc; color:#b02a59; }
-    .choice-neutral{ background:#efefef; color:#444; }
+    .no{ text-align:center; padding:20px 24px 50px; }
+    .no h2 { color: var(--pink-dark); font-size: 26px; margin-bottom: 16px; }
+    .no p { font-size: 17px; margin-bottom: 24px; }
+    
+    .threat{ display:inline-block; font-weight:700; color:#b02a59; background:linear-gradient(90deg, rgba(255,90,134,0.1), rgba(255,139,171,0.05)); padding:20px 24px; border-radius:14px; animation:waggle 2.4s ease-in-out infinite; margin: 20px 0; border: 2px solid rgba(176,42,89,0.2); font-size: 16px; line-height: 1.5; max-width: 600px; margin-left: auto; margin-right: auto;}
+    @keyframes waggle{0%{transform:translateX(0)}25%{transform:translateX(-4px)}50%{transform:translateX(0)}75%{transform:translateX(4px)}100%{transform:translateX(0)}
+    
+    .choices{ margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .choice-btn{ padding:12px 20px; border-radius:12px; border:none; cursor:pointer; font-weight:700; font-size: 15px; transition: all 0.3s ease; }
+    .choice-primary{ background:linear-gradient(135deg, #ffd1dc, #ffb3c6); color:#b02a59; border: 2px solid #ffb3c6; }
+    .choice-primary:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,90,134,0.25); }
+    .choice-neutral{ background:#f5f5f5; color:#666; border: 2px solid #e0e0e0; }
+    .choice-neutral:hover{ background:#ebebeb; }
 
     /* helpers */
     .hidden{ display:none; }
+    
     @media (max-width:600px){
-      .photo{ width:220px; height:220px; }
-      header h1{ font-size:16px; }
+      .photo-container{ width:260px; height:260px; }
+      header h1{ font-size:18px; }
+      .title { font-size: 26px; }
+      .subtitle { font-size: 16px; }
+      nav a { padding: 8px 14px; font-size: 14px; }
+      main { padding: 28px 20px; }
+      h2 { font-size: 24px; }
+      .love { font-size: 18px; padding: 10px 20px; }
     }
   </style>
 </head>
@@ -78,71 +163,71 @@
         <!-- EMAIL PREVIEW -->
         <section id="view-email" class="email-preview view">
           <div>
-            <h3 class="title">Veux-tu être ma Valentine ?</h3>
-            <p class="subtitle">J'ai préparé une surprise — clique sur OUI pour la découvrir ❤️</p>
+            <h3 class="title">Veux-tu être ma Valentine ? 💕</h3>
+            <p class="subtitle">J'ai préparé une surprise spéciale rien que pour toi...<br/>Clique sur OUI pour découvrir ce que j'ai dans le cœur ❤️</p>
 
             <div class="buttons">
-              <a class="btn btn-yes" href="#yes">OUI</a>
-              <a class="btn btn-no" href="#no" onclick="playNoAndOpen(); return false;">NON</a>
+              <a class="btn btn-yes" href="#yes">OUI 💖</a>
+              <a class="btn btn-no" href="#no" onclick="playNoAndOpen(); return false;">NON 💔</a>
             </div>
 
-            <p style="margin-top:16px; color:#888; font-size:13px;">
-              Si tu partages le lien, utilise l'URL publique vers ce fichier + #yes ou #no après l'avoir hébergé.
+            <p style="margin-top:24px; color:#999; font-size:14px;">
+              💌 Avec tout mon amour...
             </p>
           </div>
         </section>
 
         <!-- YES VIEW -->
         <section id="view-yes" class="yes view hidden" aria-live="polite">
-          <!-- Image referenced by relative path images/photo.jpg.
-               Pour que la photo s'affiche : place ton image dans images/photo.jpg
-               Si l'image relative n'existe pas, le script chargera un fallback embarqué. -->
-          <img id="displayPhoto" class="photo" src="images/photo.jpg" alt="Notre photo — je t'aime" />
-          <h2>Je t'aime — my budi</h2>
-          <div class="love">je t'aime ❤️</div>
+          <div class="photo-container">
+            <div class="photo-heart-frame"></div>
+            <img id="displayPhoto" class="photo" src="images/photo.jpg" alt="Notre photo — je t'aime" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=400&fit=crop'" />
+          </div>
+          <h2>Je t'aime — my budi 💕</h2>
+          <div class="love">je t'aime ❤️ pour toujours</div>
+          <p style="color:#666; margin:16px 0; font-size:16px; max-width:500px; margin-left:auto; margin-right:auto;">
+            Merci d'avoir dit OUI ! Tu es la personne la plus spéciale dans ma vie. Chaque moment avec toi est magique ✨
+          </p>
 
           <div class="controls">
-            <a id="downloadBtn" class="btn btn-no" href="images/photo.jpg" download="notre-photo.jpg">Télécharger la photo</a>
-            <a id="openSolo" class="btn btn-no" href="#" style="text-decoration:none;">Ouvrir seule (nouvel onglet)</a>
+            <a id="downloadBtn" class="btn btn-yes" href="images/photo.jpg" download="notre-photo.jpg">💾 Télécharger la photo</a>
+            <a id="openSolo" class="btn btn-no" href="#" style="text-decoration:none;">🔗 Ouvrir seule</a>
           </div>
         </section>
 
         <!-- NO VIEW -->
         <section id="view-no" class="no view hidden" aria-live="polite">
-          <h2>Oh... tu as répondu NON</h2>
-          <p style="color:#444;">Je prends note. (Mais je n'accepte pas si facilement)</p>
+          <h2>Oh non... tu as dit NON ? 😢</h2>
+          <p style="color:#555;">Mais je ne peux pas accepter ça si facilement ! Regarde ce qui va se passer...</p>
 
-          <div id="threat" class="threat">Si tu dis NON, je chanterai "tara baji lai lai" au karaoké ce soir — en solo et en boucle. 🎤</div>
+          <div id="threat" class="threat">
+            🎤 Si tu refuses, je chanterai "tara baji lai lai" au karaoké ce soir — en solo, en boucle, et je posterai la vidéo sur TikTok !
+          </div>
+
+          <p style="color:#888; margin:16px 0; font-size:15px;">Choisis ta punition (ou change d'avis) :</p>
 
           <div class="choices">
-            <button class="choice-btn choice-primary" id="btnKaraoke">Karaoké 🎤</button>
-            <button class="choice-btn choice-primary" id="btnSelfies">Selfies 😅</button>
-            <button class="choice-btn choice-neutral" id="btnDishes">Vaisselle 🍽️</button>
-            <a class="btn btn-no" href="#yes" style="text-decoration:none;">Attends, je change d'avis</a>
+            <button class="choice-btn choice-primary" id="btnKaraoke">🎤 Karaoké public</button>
+            <button class="choice-btn choice-primary" id="btnSelfies">📸 100 selfies</button>
+            <button class="choice-btn choice-primary" id="btnDishes">🍽️ Vaisselle 1 mois</button>
+            <button class="choice-btn choice-primary" id="btnDance">💃 Danse TikTok</button>
+            <button class="choice-btn choice-primary" id="btnPoems">📝 Poèmes quotidiens</button>
+            <button class="choice-btn choice-primary" id="btnSerenade">🎸 Sérénade balcon</button>
+            <a class="btn btn-yes" href="#yes" style="text-decoration:none; margin-top:8px;">❤️ OK, je change d'avis !</a>
           </div>
         </section>
       </main>
     </div>
   </div>
 
-  <!-- audio pour NON : place tara_baji_lai_lai.mp3 à côté ou remplace l'attribut src par une URL publique -->
+  <!-- audio pour NON -->
   <audio id="noAudio" src="tara_baji_lai_lai.mp3" preload="auto" loop></audio>
 
   <!-- floating hearts layer -->
   <div class="floating" id="floating"></div>
 
   <script>
-    /**********************************************************************
-     * Valentina — single HTML with three views (email / yes / no)
-     * - By default the photo is loaded from images/photo.jpg (relative path)
-     * - If images/photo.jpg is missing, a small embedded fallback image is used
-     * - To make public: push this file + images/photo.jpg (+ tara_baji_lai_lai.mp3 if you have it)
-     *   to a GitHub repo and enable Pages, then share the public URL + #yes or #no
-     **********************************************************************/
-
-    // --- small embedded fallback image (data URI) in case images/photo.jpg isn't available.
-    // This fallback is derived from the image you provided earlier so the page still shows a photo.
-    const FALLBACK_IMAGE = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEBUQEA8QEA8QEA8PDxAPDw8QEA8QFREWFhURExUYHSggGBolGxMVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OFxAQFy0dHR0tKy0tKy0tKy0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAOAA4AMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYBAwQCB//EADkQAAIBAgQDBgQFBAMAAAAAAAECAwQRAAUSITEGQVFhBxMiMnGBkaGx0SNSYoKS4fAVQ1NTc7LC/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAECAwQFBv/EACgRAAICAgICAQUBAAAAAAAAAAABAhEDIRIxBEETUWFxgZGh8PGB/9oADAMBAAIRAxEAPwD7qAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYbq1a1Wm3r8m3nqZcZrPyNEWJp1qPw0xq6qv4m2k8lK5W1vdzL6n0bF1qfWl+4qk9kVw4iW1r27s3h3L7qYv3Jv1yP7p7j0r0qKs0sV0tqV8qZp7b9r9e8l9qx9sLx3X6kqVd0q1bZb9Jr7s1c+0l+2q9vZ3Ky6z1f8AF7m1G9rP2r6tJf6nJ1p3uvb8Zl6kqVd0q1bZb9Jr7s1c+0l+2q9vZ3Ky6z1f8AF7m1G9rP2r6tJf6nJ1p3uvb8Zl6kqVd0q1bZb9Jr7s1c+0l+2q9vZ3Ky6z1f/2Q==";
+    const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=400&fit=crop";
 
     // --- view handling
     const viewEmail = document.getElementById('view-email');
@@ -156,8 +241,6 @@
       viewEmail.classList.toggle('hidden', name !== 'email');
       viewYes.classList.toggle('hidden', name !== 'yes');
       viewNo.classList.toggle('hidden', name !== 'no');
-      // update direct link text (for email preview or debug)
-      // (not shown in UI but useful if you edit the file)
     }
 
     function handleHash(){
@@ -168,25 +251,21 @@
     window.addEventListener('hashchange', handleHash);
     handleHash();
 
-    // --- attempt to load relative image; if error, use fallback data URI
+    // --- attempt to load relative image; if error, use fallback
     function tryLoadPhoto(){
       const testImg = new Image();
       testImg.onload = () => {
-        // relative image exists: keep src as-is
         downloadBtn.href = displayPhoto.src;
       };
       testImg.onerror = () => {
-        // relative image missing -> use embedded fallback
         displayPhoto.src = FALLBACK_IMAGE;
         downloadBtn.href = FALLBACK_IMAGE;
       };
-      // try the relative path used in src attribute
       testImg.src = displayPhoto.src;
-      // also set openSolo link to open this page with #yes
       openSolo.href = location.href.split('#')[0] + '#yes';
     }
 
-    // --- floating hearts / confetti used for yes view
+    // --- floating hearts / confetti
     const floating = document.getElementById('floating');
     function createHeart(x,size,dur,delay,hue){
       const el = document.createElement('div');
@@ -201,23 +280,52 @@
       el.style.filter = `hue-rotate(${hue}deg)`;
       floating.appendChild(el);
       requestAnimationFrame(()=> {
-        el.style.transform = `translateY(-780px) rotate(-45deg) scale(.92)`;
+        el.style.transform = `translateY(-${window.innerHeight + 100}px) rotate(-45deg) scale(.92)`;
         el.style.opacity = 0;
       });
       setTimeout(()=> { try{ floating.removeChild(el); }catch(e){} }, dur + delay + 300);
     }
 
-    function burstHearts(n){ for(let i=0;i<n;i++) createHeart(8 + Math.random()*84, 18 + Math.random()*28, 4000 + Math.random()*3600, Math.random()*400, Math.floor(Math.random()*30)-10); }
-    function confettiBurst(){ const colours=['#ff5a86','#ffd166','#ff8fab','#a0e7e5','#ffd1dc']; for(let i=0;i<30;i++){ const el=document.createElement('div'); el.style.position='fixed'; el.style.width=(6+Math.random()*12)+'px'; el.style.height=(10+Math.random()*16)+'px'; el.style.left=(40+Math.random()*20)+'%'; el.style.top=(40+Math.random()*20)+'%'; el.style.background=colours[Math.floor(Math.random()*colours.length)]; el.style.opacity='0.95'; el.style.borderRadius='3px'; document.body.appendChild(el); const dx=(Math.random()-0.5)*1200; const dy=-500-Math.random()*600; const rot=Math.random()*720; el.style.transition='transform 1400ms cubic-bezier(.2,.8,.2,1), opacity 1400ms'; requestAnimationFrame(()=> { el.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`; el.style.opacity = '0'; }); setTimeout(()=> el.remove(), 1500); } }
+    function burstHearts(n){ 
+      for(let i=0;i<n;i++) 
+        createHeart(5 + Math.random()*90, 18 + Math.random()*28, 4000 + Math.random()*3600, Math.random()*400, Math.floor(Math.random()*30)-10); 
+    }
+    
+    function confettiBurst(){ 
+      const colours=['#ff5a86','#ffd166','#ff8fab','#a0e7e5','#ffd1dc','#ff6b9d']; 
+      for(let i=0;i<40;i++){ 
+        const el=document.createElement('div'); 
+        el.style.position='fixed'; 
+        el.style.width=(6+Math.random()*14)+'px'; 
+        el.style.height=(10+Math.random()*18)+'px'; 
+        el.style.left=(35+Math.random()*30)+'%'; 
+        el.style.top=(35+Math.random()*30)+'%'; 
+        el.style.background=colours[Math.floor(Math.random()*colours.length)]; 
+        el.style.opacity='0.95'; 
+        el.style.borderRadius='4px'; 
+        el.style.zIndex='1000';
+        document.body.appendChild(el); 
+        const dx=(Math.random()-0.5)*1400; 
+        const dy=-500-Math.random()*700; 
+        const rot=Math.random()*720; 
+        el.style.transition='transform 1600ms cubic-bezier(.2,.8,.2,1), opacity 1600ms'; 
+        requestAnimationFrame(()=> { 
+          el.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`; 
+          el.style.opacity = '0'; 
+        }); 
+        setTimeout(()=> el.remove(), 1700); 
+      } 
+    }
 
     let floatingTimer = null;
     function startShow(){
-      burstHearts(10);
-      setTimeout(()=> burstHearts(8), 600);
-      setTimeout(()=> burstHearts(10), 1400);
-      confettiBurst();
+      burstHearts(12);
+      setTimeout(()=> burstHearts(10), 600);
+      setTimeout(()=> burstHearts(12), 1400);
+      setTimeout(()=> confettiBurst(), 200);
+      setTimeout(()=> confettiBurst(), 800);
       clearInterval(floatingTimer);
-      floatingTimer = setInterval(()=> { if(location.hash === '#yes') burstHearts(4); }, 2500);
+      floatingTimer = setInterval(()=> { if(location.hash === '#yes') burstHearts(5); }, 2500);
     }
     function stopShow(){ floating.innerHTML = ''; clearInterval(floatingTimer); }
 
@@ -227,14 +335,13 @@
       } else {
         stopShow();
       }
-      // stop audio if leaving #no
       if(location.hash !== '#no' && noAudio && !noAudio.paused){
         try{ noAudio.pause(); noAudio.currentTime = 0; }catch(e){}
         if(window.speechSynthesis) window.speechSynthesis.cancel();
       }
     });
 
-    // --- audio for NO (tara baji lai lai)
+    // --- audio for NO
     const noAudio = document.getElementById('noAudio');
     function speakFallback(){
       if(window.speechSynthesis){
@@ -244,13 +351,11 @@
         window.speechSynthesis.speak(u);
       } else {
         const t = document.getElementById('threat');
-        if(t) t.textContent = 'Tara baji lai lai (audio non disponible)';
+        if(t) t.textContent = '🎤 Tara baji lai lai (audio non disponible)';
       }
     }
 
-    // called when user clicks NON from nav or email preview
     function playNoAndOpen(){
-      // start audio or fallback, then open the view
       if(noAudio && noAudio.src){
         noAudio.currentTime = 0;
         const p = noAudio.play();
@@ -261,39 +366,52 @@
       location.hash = '#no';
     }
 
-    // no view buttons
+    // Funny consequences array
+    const consequences = [
+      { emoji: '🎤', text: 'Excellent choix — je répéterai "tara baji lai lai" avec passion au karaoké et je posterai TOUT sur les réseaux sociaux ! 🎶❤️' },
+      { emoji: '📸', text: 'Prépare-toi à voir 100 selfies ridicules par jour sur le chat familial — sans filtre, avec des poses embarrassantes ! 🤳😂' },
+      { emoji: '🍽️', text: 'Je ferai la vaisselle pendant un mois — mais je chanterai "tara baji lai lai" à chaque assiette ! 😉🎵' },
+      { emoji: '💃', text: 'Je vais créer une danse TikTok sur "tara baji lai lai" et taguer tous tes amis ! Prépare-toi à devenir viral ! 🕺✨' },
+      { emoji: '📝', text: 'Tu recevras un poème d\'amour embarrassant CHAQUE JOUR par SMS, email et pigeon voyageur ! 💌🐦' },
+      { emoji: '🎸', text: 'Je viendrai faire une sérénade sous ton balcon à 6h du matin — avec une guitare désaccordée ! 🌅🎶' }
+    ];
+
+    // No view buttons
     document.addEventListener('DOMContentLoaded', ()=>{
-      document.getElementById('btnKaraoke').addEventListener('click', (e)=>{
-        e.preventDefault();
-        document.getElementById('threat').textContent = 'Excellent choix — je répéterai "tara baji lai lai" avec passion. 🎤❤️';
-        if(noAudio && noAudio.src){ noAudio.currentTime = 0; noAudio.play().catch(()=> speakFallback()); } else speakFallback();
-      });
-      document.getElementById('btnSelfies').addEventListener('click', (e)=>{
-        e.preventDefault();
-        document.getElementById('threat').textContent = 'Prépare-toi à voir 100 selfies ridicules sur le chat familial — sans filtre. 🤳😂';
-        if(noAudio && !noAudio.paused){ noAudio.pause(); noAudio.currentTime = 0; }
-        if(window.speechSynthesis) window.speechSynthesis.cancel();
-      });
-      document.getElementById('btnDishes').addEventListener('click', (e)=>{
-        e.preventDefault();
-        document.getElementById('threat').textContent = 'Je ferai la vaisselle pendant un mois — mais je râlerai un peu. 😉';
-        if(noAudio && !noAudio.paused){ noAudio.pause(); noAudio.currentTime = 0; }
-        if(window.speechSynthesis) window.speechSynthesis.cancel();
+      const buttons = [
+        { id: 'btnKaraoke', index: 0 },
+        { id: 'btnSelfies', index: 1 },
+        { id: 'btnDishes', index: 2 },
+        { id: 'btnDance', index: 3 },
+        { id: 'btnPoems', index: 4 },
+        { id: 'btnSerenade', index: 5 }
+      ];
+
+      buttons.forEach(btn => {
+        document.getElementById(btn.id).addEventListener('click', (e)=>{
+          e.preventDefault();
+          const consequence = consequences[btn.index];
+          document.getElementById('threat').innerHTML = `${consequence.emoji} ${consequence.text}`;
+          
+          if(btn.index === 0 || btn.index === 2 || btn.index === 3){
+            if(noAudio && noAudio.src){ 
+              noAudio.currentTime = 0; 
+              noAudio.play().catch(()=> speakFallback()); 
+            } else speakFallback();
+          } else {
+            if(noAudio && !noAudio.paused){ 
+              noAudio.pause(); 
+              noAudio.currentTime = 0; 
+            }
+            if(window.speechSynthesis) window.speechSynthesis.cancel();
+          }
+        });
       });
 
-      // try load photo (relative path images/photo.jpg) or use fallback
       tryLoadPhoto();
-
-      // if hash is #yes at load, start hearts
       if(location.hash === '#yes') startShow();
-
-      // set openSolo link
       openSolo.href = location.href.split('#')[0] + '#yes';
     });
-
-    // --- Useful note (no UI): if you want the page to use a hosted image instead,
-    // edit the <img id="displayPhoto"> src attribute to a full URL, or put your photo
-    // file at images/photo.jpg relative to this HTML (recommended for GitHub Pages).
   </script>
 </body>
 </html>
