@@ -145,6 +145,162 @@
       h2 { font-size: 24px; }
       .love { font-size: 18px; padding: 10px 20px; }
       .funny-choices{grid-template-columns:1fr;}
+      .gallery-photo-wrapper {
+        width: 280px;
+        height: 280px;
+      }
+      
+      .gallery-container {
+        gap: 10px;
+      }
+      
+      .gallery-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+      
+      .gallery-caption {
+        font-size: 16px;
+        padding: 0 15px;
+      }
+    }
+    
+    /* Gallery View Styles */
+    .gallery-view {
+      text-align: center;
+      padding: 20px 24px 50px;
+    }
+
+    .gallery-container {
+      position: relative;
+      max-width: 600px;
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .gallery-photo-wrapper {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      display: inline-block;
+    }
+
+    .gallery-photo {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 8px solid #fff;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-nav {
+      background: linear-gradient(135deg, var(--pink), var(--pink-light));
+      color: #fff;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(255,90,134,0.3);
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .gallery-nav:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(255,90,134,0.5);
+    }
+
+    .gallery-nav:active {
+      transform: scale(0.95);
+    }
+
+    .gallery-caption {
+      margin: 20px auto;
+      font-size: 18px;
+      color: var(--pink-dark);
+      font-weight: 700;
+      max-width: 500px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gallery-indicators {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .gallery-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-dot.active {
+      background: var(--pink);
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(255,90,134,0.5);
+    }
+
+    .gallery-dot:hover {
+      background: var(--pink-light);
+      transform: scale(1.2);
+    }
+
+    .gallery-counter {
+      font-size: 16px;
+      color: #999;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+
+    .gallery-counter span {
+      color: var(--pink);
+      font-weight: 800;
+    }
+
+    /* Animation de swipe */
+    .gallery-photo.slide-left {
+      animation: slideLeft 0.4s ease;
+    }
+
+    .gallery-photo.slide-right {
+      animation: slideRight 0.4s ease;
+    }
+
+    @keyframes slideLeft {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideRight {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
   </style>
 </head>
@@ -188,6 +344,7 @@
           <p style="color:#666; margin:16px 0; font-size:16px; max-width:500px; margin-left:auto; margin-right:auto;" id="photo-text">Merci d'avoir dit OUI ! Tu es la personne la plus spéciale dans ma vie. Chaque moment avec toi est magique ✨</p>
           <div class="controls">
             <a class="btn btn-yes" href="images/photo.jpg" download="notre-photo.jpg" id="btn-download">💾 Télécharger la photo</a>
+            <button class="btn btn-yes" onclick="showGallery()" id="btn-gallery">✨ Voir nos souvenirs...</button>
           </div>
         </section>
         <section id="view-no" class="no-view view hidden">
@@ -260,6 +417,43 @@
             <button class="btn btn-yes" onclick="showExcellent()" id="btn-finally">❤️ Finalement... OUI !</button>
           </div>
         </section>
+        <section id="view-gallery" class="gallery-view view hidden">
+          <h2 id="gallery-title">Nos premiers moments ensemble 💕</h2>
+          <p style="color:#666; margin:12px 0; font-size:16px;" id="gallery-subtitle">
+            Ces photos qui ont marqué le début de notre histoire... ✨
+          </p>
+          
+          <div class="gallery-container">
+            <button class="gallery-nav gallery-prev" onclick="changePhoto(-1)" aria-label="Photo précédente">
+              <span>❮</span>
+            </button>
+            
+            <div class="gallery-photo-wrapper">
+              <div class="photo-heart-frame"></div>
+              <img class="gallery-photo" id="galleryImage" src="images/gallery-1.JPG" alt="Notre souvenir" />
+            </div>
+            
+            <button class="gallery-nav gallery-next" onclick="changePhoto(1)" aria-label="Photo suivante">
+              <span>❯</span>
+            </button>
+          </div>
+          
+          <div class="gallery-caption" id="galleryCaption">
+            Notre toute première photo ensemble 💕
+          </div>
+          
+          <div class="gallery-indicators" id="galleryIndicators">
+            <!-- Points générés par JavaScript -->
+          </div>
+          
+          <div class="gallery-counter" id="galleryCounter">
+            <span id="currentPhoto">1</span> / <span id="totalPhotos">10</span>
+          </div>
+          
+          <div class="controls">
+            <button class="btn btn-yes" onclick="showPhoto()" id="btn-back-photo">🔙 Retour</button>
+          </div>
+        </section>
       </main>
     </div>
   </div>
@@ -302,7 +496,11 @@
         stillTitle: '⚠️ ATTENTION !',
         stillText: 'Je vais poster cette photo moche sur Facebook et Instagram !',
         btnAgree: 'D\'accord !!! 😱',
-        btnFinally: '❤️ Finalement... OUI!'
+        btnFinally: '❤️ Finalement... OUI!',
+        galleryTitle: 'Nos premiers moments ensemble 💕',
+        gallerySubtitle: 'Ces photos qui ont marqué le début de notre histoire... ✨',
+        btnGallery: '✨ Voir nos souvenirs...',
+        btnBackPhoto: '🔙 Retour'
       },
       en: {
         headerTitle: 'Will you be my Valentine?',
@@ -339,7 +537,11 @@
         stillTitle: '⚠️ WARNING!',
         stillText: 'I\'m going to post this ugly photo on Facebook and Instagram!',
         btnAgree: 'Okay!!! 😱',
-        btnFinally: '❤️ Finally... YES!'
+        btnFinally: '❤️ Finally... YES!',
+        galleryTitle: 'Our first moments together 💕',
+        gallerySubtitle: 'These photos that marked the beginning of our story... ✨',
+        btnGallery: '✨ See our memories...',
+        btnBackPhoto: '🔙 Back'
       }
     };
 
@@ -392,6 +594,15 @@
       document.getElementById('still-text').textContent = t.stillText;
       document.getElementById('btn-agree').textContent = t.btnAgree;
       document.getElementById('btn-finally').textContent = t.btnFinally;
+      document.getElementById('gallery-title').textContent = t.galleryTitle;
+      document.getElementById('gallery-subtitle').textContent = t.gallerySubtitle;
+      document.getElementById('btn-gallery').textContent = t.btnGallery;
+      document.getElementById('btn-back-photo').textContent = t.btnBackPhoto;
+
+      // Update gallery caption if gallery is visible
+      if (!document.getElementById('view-gallery').classList.contains('hidden')) {
+        updateGalleryPhoto();
+      }
     }
 
     const viewQuestion = document.getElementById('view-question');
@@ -406,6 +617,7 @@
       viewExcellent.classList.add('hidden');
       viewPhoto.classList.add('hidden');
       viewNo.classList.add('hidden');
+      document.getElementById('view-gallery').classList.add('hidden');
       stopShow();
       if(taraAudio) taraAudio.pause();
     }
@@ -541,6 +753,192 @@
       if(floatingTimer) clearInterval(floatingTimer);
       floatingTimer = null;
     }
+    
+    // Gallery data
+    const galleryPhotos = [
+      {
+        src: 'images/gallery-1.JPG',
+        caption: {
+          fr: 'Notre toute première photo ensemble 💕',
+          en: 'Our very first photo together 💕'
+        }
+      },
+      {
+        src: 'images/galley-2.JPG',
+        caption: {
+          fr: 'Ce moment magique, le début de tout... ✨',
+          en: 'This magical moment, the beginning of everything... ✨'
+        }
+      },
+      {
+        src: 'images/gallery-3.JPG',
+        caption: {
+          fr: 'On était si timides encore 🥰',
+          en: 'We were so shy back then 🥰'
+        }
+      },
+      {
+        src: 'images/gallery-4.JPG',
+        caption: {
+          fr: 'Nos premiers sourires complices 😊',
+          en: 'Our first shared smiles 😊'
+        }
+      },
+      {
+        src: 'images/gallery-5.JPG',
+        caption: {
+          fr: 'Ces premiers instants précieux 💖',
+          en: 'These precious first moments 💖'
+        }
+      },
+      {
+        src: 'images/gallery-6.JPG',
+        caption: {
+          fr: 'On apprenait à se connaître 🌟',
+          en: 'We were getting to know each other 🌟'
+        }
+      },
+      {
+        src: 'images/gallery-7.JPG',
+        caption: {
+          fr: 'Chaque moment était spécial 💫',
+          en: 'Every moment was special 💫'
+        }
+      },
+      {
+        src: 'images/gallery-8.JPG',
+        caption: {
+          fr: 'On ne savait pas encore... 💭',
+          en: 'We didn\'t know yet... 💭'
+        }
+      },
+      {
+        src: 'images/gallery-9.JPG',
+        caption: {
+          fr: 'Que ce serait le début d\'une belle histoire 💝',
+          en: 'That it would be the start of a beautiful story 💝'
+        }
+      },
+      {
+        src: 'images/gallery-10.JPG',
+        caption: {
+          fr: 'Pour toujours... mon budi 💍✨',
+          en: 'Forever... my budi 💍✨'
+        }
+      }
+    ];
+
+    let currentGalleryIndex = 0;
+
+    function showGallery() {
+      hideAll();
+      document.getElementById('view-gallery').classList.remove('hidden');
+      currentGalleryIndex = 0;
+      updateGalleryPhoto();
+      createGalleryIndicators();
+    }
+
+    function createGalleryIndicators() {
+      const container = document.getElementById('galleryIndicators');
+      container.innerHTML = '';
+      
+      for (let i = 0; i < galleryPhotos.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = function() { goToPhoto(i); };
+        container.appendChild(dot);
+      }
+    }
+
+    function updateGalleryPhoto() {
+      const img = document.getElementById('galleryImage');
+      const caption = document.getElementById('galleryCaption');
+      const current = document.getElementById('currentPhoto');
+      const total = document.getElementById('totalPhotos');
+      
+      // Animation
+      img.classList.remove('slide-left', 'slide-right');
+      void img.offsetWidth; // Force reflow
+      img.classList.add(currentGalleryIndex > 0 ? 'slide-left' : 'slide-right');
+      
+      // Update content
+      img.src = galleryPhotos[currentGalleryIndex].src;
+      caption.textContent = galleryPhotos[currentGalleryIndex].caption[currentLang];
+      current.textContent = currentGalleryIndex + 1;
+      total.textContent = galleryPhotos.length;
+      
+      // Update indicators
+      const dots = document.querySelectorAll('.gallery-dot');
+      dots.forEach(function(dot, index) {
+        if (index === currentGalleryIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function changePhoto(direction) {
+      currentGalleryIndex += direction;
+      
+      // Loop around
+      if (currentGalleryIndex < 0) {
+        currentGalleryIndex = galleryPhotos.length - 1;
+      } else if (currentGalleryIndex >= galleryPhotos.length) {
+        currentGalleryIndex = 0;
+      }
+      
+      updateGalleryPhoto();
+    }
+
+    function goToPhoto(index) {
+      currentGalleryIndex = index;
+      updateGalleryPhoto();
+    }
+
+    // Support swipe sur mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const galleryView = document.getElementById('view-gallery');
+      
+      if (galleryView) {
+        galleryView.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        galleryView.addEventListener('touchend', function(e) {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
+      }
+    });
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        // Swipe left
+        changePhoto(1);
+      }
+      if (touchEndX > touchStartX + 50) {
+        // Swipe right
+        changePhoto(-1);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      const galleryView = document.getElementById('view-gallery');
+      if (!galleryView.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') {
+          changePhoto(-1);
+        } else if (e.key === 'ArrowRight') {
+          changePhoto(1);
+        } else if (e.key === 'Escape') {
+          showPhoto();
+        }
+      }
+    });
   </script>
 </body>
 </html>
