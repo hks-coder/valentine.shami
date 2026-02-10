@@ -3,44 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine</title>
-    <style>
-        :root {
-            --danger-red: #dc3545;
-        }
-        .photo-danger-frame {
-            background: linear-gradient(to right, #ff0000, #dc3545);
-            animation: siren 1s infinite alternate;
-        }
-        @keyframes siren {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .social-icons { /* Add social icons styling here */ }
-    </style>
+    <title>Valentine's Day</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <button class="funny-choice">Choice 1</button>
-        <button class="funny-choice">Choice 2</button>
-        <button class="funny-choice">Choice 3</button>
-        <button class="funny-choice">Choice 4</button>
-        <button class="funny-choice">🚨 Toujours NON</button> <!-- Added 5th button -->
+
+<div id="question">
+    <!-- Question Section -->
+</div>
+
+<div id="excellent">
+    <!-- Excellent Section -->
+</div>
+
+<div id="photo">
+    <!-- Photo Section -->
+</div>
+
+<div id="no-views">
+    <!-- No Views Section -->
+</div>
+
+<div id="funny-choices">
+    <button onclick="showFunnyContent('stillno')">🚨 Toujours NON</button>
+    <!-- Other choices -->
+</div>
+
+<section id="funny-stillno" class="photo-danger-frame" style="display:none;">
+    <img src="photo-moche.jpg" alt="Moche Photo">
+    <p>⚠️ ATTENTION ! Je vais poster cette photo moche sur Facebook et Instagram !</p>
+    <div class="social-icons">
+        <span>📱 Facebook</span>
+        <span>📷 Instagram</span>
     </div>
-    <div id="funny-stillno" class="photo-danger-frame"> <!-- New funny-content div -->
-        <img src="images/photo-moche.jpg" alt="Moche Photo" />
-        <p>⚠️ ATTENTION ! Je vais poster cette photo moche sur Facebook et Instagram !</p>
-        <div class="social-icons">
-            <img src="facebook-icon.png" alt="Facebook" />
-            <img src="instagram-icon.png" alt="Instagram" />
-        </div>
-        <button onclick="showExcellent()">D'accord !!! 😱</button>
-    </div>
-    <script>
-        function showFunnyContent() {
-            // Handle 'stillno' case
-        }
-    </script>
+    <button onclick="showExcellent()">D'accord !!!</button>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
