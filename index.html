@@ -3,31 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Special</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <title>Valentine's Day Design</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: red;
+        }
+        .heart {
+            position: absolute;
+            background: red;
+            width: 50px;
+            height: 50px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transform: rotate(45deg);
+            animation: float 5s infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: yellow;
+            animation: fall 4s infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
 </head>
-<body onload="startAnimations()">
-    <div class="container">
-        <h1>Happy Valentine's Day!</h1>
-        <img src="images/photo.jpg" alt="Valentine's Photo" class="photo">
-        <div class="hearts">
-            <!-- Floating hearts will be animated here -->
-        </div>
-        <div class="confetti">
-            <!-- Confetti will be animated here -->
-        </div>
-        <div class="questions">
-            <h2>Funny Questions:</h2>
-            <ol>
-                <li>What did one toaster say to the other? You’re my bread and butter!</li>
-                <li>What do you call two birds in love? Tweethearts!</li>
-                <li>What do you call a very small Valentine? A valen-tiny!</li>
-                <li>What did the stamp say to the envelope on Valentine’s Day? I’m stuck on you!</li>
-                <li>What did the paper clip say to the magnet? I find you very attractive!</li>
-                <li>What’s the best part about Valentine’s Day? The chocolate, of course!</li>
-            </ol>
-        </div>
+<body>
+    <h1>Happy Valentine's Day!</h1>
+    <img src="images/photo.jpg" alt="Valentine's Photo">
+    <div class="heart"></div>
+    <script>
+        // Floating hearts
+        for (let i = 0; i < 10; i++) {
+            let heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+        }
+
+        // Confetti
+        for (let i = 0; i < 100; i++) {
+            let confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.animationDelay = Math.random() * 4 + 's';
+            document.body.appendChild(confetti);
+        }
+    </script>
+    <div>
+        <h2>Funny Questions:</h2>
+        <ol>
+            <li>What did one volcano say to the other volcano?</li>
+            <li>How do you organize a space party?</li>
+            <li>Why did the math book look sad?</li>
+            <li>What do you call fake spaghetti?</li>
+            <li>How does a penguin build its house?</li>
+            <li>What do you call a bear with no teeth?</li>
+        </ol>
     </div>
 </body>
 </html>
