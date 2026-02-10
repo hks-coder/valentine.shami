@@ -290,11 +290,12 @@
           </div>
           <div id="funny-tara" class="funny-content">
             <h3 style="color:var(--pink); margin-bottom:16px;" id="tara-title">🎵 Tara baji lai lai</h3>
-            <audio id="taraAudio" controls loop style="width:100%; max-width:400px;">
-              <source src="tara_baji_lai_lai.mp3" type="audio/mpeg">
-              Ton navigateur ne supporte pas l'audio.
-            </audio>
-            <p style="margin-top:16px; color:#666;" id="tara-text">Je vais chanter jusqu'à ce que tu changes d'avis ! 🎤😂</p>
+            <p style="margin-top:16px; color:#666; font-size:16px; line-height:1.8;" id="tara-text">
+              🎵 Tara baji lai lai... 🎵<br/>
+              🎶 Je chanterais cette chanson en boucle jusqu'à ce que tu dises OUI ! 🎤<br/>
+              💖 Mon cœur attend ta réponse... 💖<br/>
+              😊 Allez, sois gentille et dis OUI ! 😊
+            </p>
           </div>
           <div id="funny-dramatic" class="funny-content">
             <h3 style="color:var(--pink); margin-bottom:16px;" id="drama-title">💔 Pourquoi tu me brises le cœur ?</h3>
@@ -500,7 +501,7 @@
         funnyBtn4: '😱 Les conséquences de ton NON',
         funnyBtn5: '🚨 Toujours NON',
         taraTitle: '🎵 Tara baji lai lai',
-        taraText: 'Je vais chanter jusqu\'à ce que tu changes d\'avis ! 🎤😂',
+        taraText: '🎵 Tara baji lai lai... 🎵\n🎶 Je chanterais cette chanson en boucle jusqu\'à ce que tu dises OUI ! 🎤\n💖 Mon cœur attend ta réponse... 💖\n😊 Allez, sois gentille et dis OUI ! 😊',
         dramaTitle: '💔 Pourquoi tu me brises le cœur ?',
         dramaText: 'Mon cœur est en mille morceaux... 😭<br/>Les oiseaux ne chantent plus... 🐦<br/>Le soleil refuse de briller... ☀️<br/>Même mon café a un goût amer maintenant... ☕<br/>Comment peux-tu me faire ça ? 😢💔',
         argsTitle: '🤔 Réfléchis encore...',
@@ -553,7 +554,7 @@
         funnyBtn4: '😱 Consequences of your NO',
         funnyBtn5: '🚨 Still NO',
         taraTitle: '🎵 Tara baji lai lai',
-        taraText: 'I\'ll sing until you change your mind! 🎤😂',
+        taraText: '🎵 Tara baji lai lai... 🎵\n🎶 I would sing this song on repeat until you say YES! 🎤\n💖 My heart is waiting for your answer... 💖\n😊 Come on, be nice and say YES! 😊',
         dramaTitle: '💔 Why are you breaking my heart?',
         dramaText: 'My heart is in a thousand pieces... 😭<br/>The birds don\'t sing anymore... 🐦<br/>The sun refuses to shine... ☀️<br/>Even my coffee tastes bitter now... ☕<br/>How can you do this to me? 😢💔',
         argsTitle: '🤔 Think again...',
@@ -617,7 +618,7 @@
       document.getElementById('funny-btn-4').textContent = t.funnyBtn4;
       document.getElementById('funny-btn-5').textContent = t.funnyBtn5;
       document.getElementById('tara-title').textContent = t.taraTitle;
-      document.getElementById('tara-text').textContent = t.taraText;
+      document.getElementById('tara-text').innerHTML = t.taraText.replace(/\n/g, '<br/>');
       document.getElementById('drama-title').textContent = t.dramaTitle;
       document.getElementById('drama-text').innerHTML = t.dramaText;
       document.getElementById('args-title').textContent = t.argsTitle;
