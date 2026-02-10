@@ -3,42 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Happy Valentine's Day</title>
+    <style>
+        body {
+            background-color: #ffccff;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #ff69b4;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        .heart {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 50%;
+            position: relative;
+            animation: bounce 1s infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+        .photo-danger-frame {
+            background: linear-gradient(to right, red, pink);
+            animation: blink 1s infinite;
+            border: 5px solid #ff0000;
+            padding: 10px;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-
-<div id="question">
-    <!-- Question Section -->
-</div>
-
-<div id="excellent">
-    <!-- Excellent Section -->
-</div>
-
-<div id="photo">
-    <!-- Photo Section -->
-</div>
-
-<div id="no-views">
-    <!-- No Views Section -->
-</div>
-
-<div id="funny-choices">
-    <button onclick="showFunnyContent('stillno')">🚨 Toujours NON</button>
-    <!-- Other choices -->
-</div>
-
-<section id="funny-stillno" class="photo-danger-frame" style="display:none;">
-    <img src="photo-moche.jpg" alt="Moche Photo">
-    <p>⚠️ ATTENTION ! Je vais poster cette photo moche sur Facebook et Instagram !</p>
-    <div class="social-icons">
-        <span>📱 Facebook</span>
-        <span>📷 Instagram</span>
+    <h1>Happy Valentine's Day!</h1>
+    <div class="view-question">
+        <h2>Are you surprised?</h2>
+        <button onclick="showExcellent()">Yes</button>
+        <button onclick="showFunnyContent('tara')">No, Tara</button>
+        <button onclick="showFunnyContent('dramatic')">No, Dramatic</button>
+        <button onclick="showFunnyContent('arguments')">No, Arguments</button>
+        <button onclick="showFunnyContent('threats')">No, Threats</button>
+        <button onclick="showFunnyContent('stillno')">🚨 Toujours NON</button>
     </div>
-    <button onclick="showExcellent()">D'accord !!!</button>
-</section>
+    <div class="view-excellent" style="display:none;">
+        <h2>Excellent Response!</h2>
+    </div>
+    <div class="view-photo" style="display:none;">
+        <h2>Here is a lovely photo!</h2>
+        <img class="heart" src="images/love.jpg" alt="Love">
+    </div>
+    <div class="view-no" style="display:none;">
+        <h2>Funny Choices:</h2>
+        <div class="funny-choices">
+            <div>🌀 Tara's Choice</div>
+            <div>📖 Dramatic Complaint</div>
+            <div>🔍 Arguments!</div>
+            <div>💥 Threats!</div>
+            <div>🚨 Toujours NON</div>
+        </div>
+    </div>
+    <div class="view-stillno" style="display:none;">
+        <div class="photo-danger-frame">
+            <img src="images/photo-moche.jpg" alt="Ugly Photo">
+            <p>⚠️ ATTENTION ! Je vais poster cette photo moche sur Facebook et Instagram !</p>
+            <p>📱 Facebook 📷 Instagram</p>
+            <button onclick="showExcellent()">D'accord !!!</button>
+        </div>
+    </div>
+    <script>
+        function hideAll() {
+            document.querySelector('.view-question').style.display = 'none';
+            document.querySelector('.view-excellent').style.display = 'none';
+            document.querySelector('.view-photo').style.display = 'none';
+            document.querySelector('.view-no').style.display = 'none';
+            document.querySelector('.view-stillno').style.display = 'none';
+        }
 
-<script src="script.js"></script>
+        function showStillNo() {
+            hideAll();
+            document.querySelector('.view-stillno').style.display = 'block';
+        }
+
+        function showFunnyContent(choice) {
+            hideAll();
+            if (choice === 'stillno') {
+                showStillNo();
+            } else {
+                document.querySelector('.view-no').style.display = 'block';
+            }
+        }
+
+        function showExcellent() {
+            hideAll();
+            document.querySelector('.view-excellent').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
