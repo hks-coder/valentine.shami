@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Valentine's Day Love</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Special</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
 </head>
-<body>
+<body onload="startAnimations()">
     <div class="container">
         <h1>Happy Valentine's Day!</h1>
-        <img src="images/photo.jpg" alt="Valentine Image" />
-        <p>Celebrate love with these beautiful designs this Valentine’s Day.</p>
-        <a href="images/photo.jpg" download>Download</a>
+        <img src="images/photo.jpg" alt="Valentine's Photo" class="photo">
+        <div class="hearts">
+            <!-- Floating hearts will be animated here -->
+        </div>
+        <div class="confetti">
+            <!-- Confetti will be animated here -->
+        </div>
+        <div class="questions">
+            <h2>Funny Questions:</h2>
+            <ol>
+                <li>What did one toaster say to the other? You’re my bread and butter!</li>
+                <li>What do you call two birds in love? Tweethearts!</li>
+                <li>What do you call a very small Valentine? A valen-tiny!</li>
+                <li>What did the stamp say to the envelope on Valentine’s Day? I’m stuck on you!</li>
+                <li>What did the paper clip say to the magnet? I find you very attractive!</li>
+                <li>What’s the best part about Valentine’s Day? The chocolate, of course!</li>
+            </ol>
+        </div>
     </div>
 </body>
 </html>
