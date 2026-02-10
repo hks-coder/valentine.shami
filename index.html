@@ -1,46 +1,49 @@
-<script>
-var currentIndex = 0;
-var intervalId;
+<html>
+<head>
+    <script>
+        let slideshowTimer = null;
 
-function openModal() {
-    document.getElementById('myModal').style.display = 'block';
-    startSlideshow();
-}
+        function startSlideshow() {
+            if(slideshowTimer) clearInterval(slideshowTimer);
+            slideshowTimer = setInterval(function(){
+                currentImageIndex++;
+                if(currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+                document.getElementById('modalImage').src = galleryImages[currentImageIndex];
+                updateModalMessage(currentImageIndex);
+            }, 3000);
+        }
 
-function closeModal() {
-    document.getElementById('myModal').style.display = 'none';
-    stopSlideshow();
-}
+        function stopSlideshow() {
+            if(slideshowTimer) clearInterval(slideshowTimer);
+            slideshowTimer = null;
+        }
 
-function startSlideshow() {
-    intervalId = setInterval(() => {
-        currentIndex = (currentIndex + 1) % galleryImages.length;
-        showImage(currentIndex);
-    }, 3000);
-}
+        function openModal() {
+            // Existing code to open modal
+            startSlideshow();
+        }
 
-function stopSlideshow() {
-    clearInterval(intervalId);
-}
+        function changeImage() {
+            stopSlideshow();
+            // Existing code to change image
+        }
 
-function toggleSlideshow() {
-    if (intervalId) {
-        stopSlideshow();
-    } else {
-        startSlideshow();
-    }
-}
+        function closeModal() {
+            stopSlideshow();
+            // Existing code to close modal
+        }
 
-function showImage(index) {
-    // Implementation to show the image at 'index'
-    // Your existing logic here
-}
-
-function manualNavigation() {
-    // Stop slideshow when user navigates manually
-    stopSlideshow();
-}
-
-// Event listeners for manual image navigation
-// Add your existing listeners here
-</script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                stopSlideshow();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="modal">
+        <img id="modalImage" src="" alt="Gallery image">
+        <div class="modal-message"></div>
+    </div>
+</body>
+</html>
