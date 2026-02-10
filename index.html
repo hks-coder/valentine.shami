@@ -23,7 +23,6 @@
       font-size: 40px;
       opacity: 0.1;
       animation: float 6s ease-in-out infinite;
-      pointer-events: none;
     }
     body::after {
       content: '❤️';
@@ -33,7 +32,6 @@
       font-size: 35px;
       opacity: 0.1;
       animation: float 7s ease-in-out infinite reverse;
-      pointer-events: none;
     }
     @keyframes float {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -45,7 +43,7 @@
     header h1{margin:0; color:var(--pink); font-size:22px; font-weight:800; text-shadow: 0 2px 4px rgba(255,90,134,0.1);}
     header h1::before { content: '💌 '; }
     .lang-selector{display:flex; gap:8px;}
-    .lang-btn{padding:8px 16px; border-radius:8px; border:2px solid var(--pink-light); background:#fff; color:var(--pink-dark); font-weight:700; cursor:pointer; transition:all 0.3s; font-family: inherit;}
+    .lang-btn{padding:8px 16px; border-radius:8px; border:2px solid var(--pink-light); background:#fff; color:var(--pink-dark); font-weight:700; cursor:pointer; transition:all 0.3s;}
     .lang-btn:hover{background:var(--pink); color:#fff;}
     .lang-btn.active{background:var(--pink); color:#fff;}
     main{padding:40px 28px;}
@@ -53,7 +51,7 @@
     .title{color:var(--pink); font-size:32px; margin:0 0 12px; font-weight:800; text-shadow: 0 2px 8px rgba(255,90,134,0.15);}
     .subtitle{color:#555; margin:0 0 24px; font-size:18px; line-height:1.6;}
     .buttons{display:flex; justify-content:center; gap:16px; margin-top:20px; flex-wrap: wrap;}
-    .btn{display:inline-block; padding:14px 28px; border-radius:14px; font-weight:800; text-decoration:none; cursor:pointer; transition: all 0.3s ease; font-size: 16px; border:none; font-family: inherit;}
+    .btn{display:inline-block; padding:14px 28px; border-radius:14px; font-weight:800; text-decoration:none; cursor:pointer; transition: all 0.3s ease; font-size: 16px; border:none;}
     .btn-yes{background:linear-gradient(135deg, var(--pink), var(--pink-light)); color:#fff; box-shadow:0 8px 20px rgba(255,90,134,.2);}
     .btn-yes:hover{transform: scale(1.05); box-shadow:0 10px 25px rgba(255,90,134,.3);}
     .btn-no{background:#f5f5f5; color:#666; opacity:.95; border: 2px solid #e0e0e0;}
@@ -117,7 +115,7 @@
     }
     h2{ color:var(--pink); margin:20px 0 10px; font-size: 28px; font-weight: 800; }
     .love{ display:inline-block; font-weight:800; color:#fff; font-size:22px; padding:12px 24px; border-radius:999px; background:linear-gradient(135deg, var(--pink), var(--pink-light)); animation:heartbeat 1.6s infinite; box-shadow: 0 8px 20px rgba(255,90,134,0.3); margin: 10px 0;}
-    @keyframes heartbeat{0%{transform:scale(1)}25%{transform:scale(1.08)}50%{transform:scale(1)}75%{transform:scale(1.06)}100%{transform:scale(1)}}
+    @keyframes heartbeat{0%{transform:scale(1)}25%{transform:scale(1.08)}50%{transform:scale(1)}75%{transform:scale(1.06)}100%{transform:scale(1)}
     .controls{ margin-top:20px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
     .floating{ position:fixed; left:0; top:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:999; }
     .heart{ position:absolute; transform:rotate(-45deg); background:var(--pink); border-radius:4px 4px 0 0; box-shadow:0 6px 12px rgba(214,51,108,.18); }
@@ -133,13 +131,7 @@
     .funny-content.active{display:block;}
     .funny-content ul{text-align:left; padding-left:24px;}
     .funny-content li{margin:12px 0; font-size:16px; color:#555; line-height:1.6;}
-    .social-icons{display:flex; gap:20px; justify-content:center; align-items:center; margin:16px 0;}
-    .social-icon{transition:all 0.3s ease; cursor:pointer; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
-    .social-icon:hover{transform:scale(1.2) rotate(5deg); filter:drop-shadow(0 6px 12px rgba(0,0,0,0.2));}
-    .facebook-icon:hover{filter:drop-shadow(0 6px 12px rgba(24,119,242,0.5));}
-    .instagram-icon:hover{filter:drop-shadow(0 6px 12px rgba(188,48,129,0.5));}
-    @keyframes pulse-social{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-    .social-icon-warning{animation:pulse-social 1.5s ease-in-out infinite;}
+    .social-icons{display:flex; gap:12px; justify-content:center; margin:12px 0; font-size:24px;}
     .hidden{ display:none; }
     @media (max-width:600px){
       .photo-container{ width:260px; height:260px; }
@@ -151,8 +143,6 @@
       h2 { font-size: 24px; }
       .love { font-size: 18px; padding: 10px 20px; }
       .funny-choices{grid-template-columns:1fr;}
-      .social-icon{width:35px; height:35px;}
-      .social-icons{gap:16px;}
     }
   </style>
 </head>
@@ -183,7 +173,7 @@
           <p style="font-size:18px; color:#666; max-width:500px; margin:16px auto;" id="ex-text">Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕</p>
           <div class="choice-buttons">
             <button class="btn btn-yes" onclick="showPhoto()" style="position:relative; z-index:10;" id="btn-continue">Poursuivre 🎉</button>
-            <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel(event)">Annuler</button>
+            <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel()">Annuler</button>
           </div>
         </section>
         <section id="view-photo" class="photo-view view hidden">
@@ -219,7 +209,7 @@
           <div id="funny-dramatic" class="funny-content">
             <h3 style="color:var(--pink); margin-bottom:16px;" id="drama-title">💔 Pourquoi tu me brises le cœur ?</h3>
             <p style="color:#666; font-size:16px; line-height:1.8;" id="drama-text">
-              Mon cœur est en mille morceaux... 😭<br/>
+              Mon cœur est en mille morceaux... ��<br/>
               Les oiseaux ne chantent plus... 🐦<br/>
               Le soleil refuse de briller... ☀️<br/>
               Même mon café a un goût amer maintenant... ☕<br/>
@@ -257,23 +247,8 @@
             <h3 style="color:#ff0000; margin:20px 0; font-size:24px; font-weight:800;" id="still-title">⚠️ ATTENTION !</h3>
             <p style="color:#dc3545; font-size:18px; font-weight:700; margin:16px 0;" id="still-text">Je vais poster cette photo moche sur Facebook et Instagram !</p>
             <div class="social-icons">
-              <!-- Facebook -->
-              <svg class="social-icon facebook-icon" viewBox="0 0 24 24" width="40" height="40">
-                <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-              
-              <!-- Instagram -->
-              <svg class="social-icon instagram-icon" viewBox="0 0 24 24" width="40" height="40">
-                <defs>
-                  <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#FED576;stop-opacity:1" />
-                    <stop offset="25%" style="stop-color:#F47133;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#BC3081;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#4C63D2;stop-opacity:1" />
-                  </linearGradient>
-                </defs>
-                <path fill="url(#instagram-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-              </svg>
+              <span title="Facebook">📱</span>
+              <span title="Instagram">📷</span>
             </div>
             <div style="margin-top:24px;">
               <button class="btn btn-danger" onclick="showExcellent()" id="btn-agree">D'accord !!! 😱</button>
@@ -321,7 +296,7 @@
         argsList: ['Je fais les meilleurs câlins du monde ! 🤗','Je peux cuisiner... enfin, commander à manger ! 🍕','Je connais toutes les blagues nulles ! 😂','Je suis expert en Netflix & Chill ! 📺','Et surtout... je t\'aime à la folie ! 💕'],
         threatTitle: '😱 Les conséquences de ton NON',
         threatIntro: 'Attention, voici ce qui va se passer :',
-        threatList: ['Je vais manger TOUT le chocolat moi-même ! 🍫','Je vais regarder notre série préférée sans toi ! 📺','Je vais apprendre à danser le tango... seul ! 💃','Je vais devenir ami avec ton ex ! 😱','Je vais adopter 47 chats ! 🐱🐱🐱','Pire... je vais porter des chaussettes avec des sandales ! 🧦👡'],
+        threatList: ['Je vais manger TOUT le chocolat moi-même ! 🍫','Je vais regarder notre série préférée sans toi ! ��','Je vais apprendre à danser le tango... seul ! 💃','Je vais devenir ami avec ton ex ! 😱','Je vais adopter 47 chats ! 🐱🐱🐱','Pire... je vais porter des chaussettes avec des sandales ! 🧦👡'],
         stillTitle: '⚠️ ATTENTION !',
         stillText: 'Je vais poster cette photo moche sur Facebook et Instagram !',
         btnAgree: 'D\'accord !!! 😱',
@@ -334,7 +309,7 @@
         btnYes: 'YES 💖',
         btnNo: 'NO 💔',
         qFooter: '💌 With all my love...',
-        exTitle: 'Excellent choice! 💖',
+        exTitle: 'Excellent choice! ��',
         exText: 'I knew you\'d say yes! You are the best decision of my life 💕',
         btnContinue: 'Continue 🎉',
         btnCancel: 'Cancel',
@@ -368,10 +343,8 @@
 
     function setLanguage(lang, event) {
       currentLang = lang;
-      document.querySelectorAll('.lang-btn').forEach(function(btn) { 
-        btn.classList.remove('active'); 
-      });
-      if(event && event.target) {
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) {
         event.target.classList.add('active');
       }
       
@@ -403,14 +376,10 @@
       document.getElementById('drama-text').innerHTML = t.dramaText;
       document.getElementById('args-title').textContent = t.argsTitle;
       document.getElementById('args-intro').textContent = t.argsIntro;
-      document.getElementById('args-list').innerHTML = t.argsList.map(function(item) { 
-        return '<li>' + item + '</li>'; 
-      }).join('');
+      document.getElementById('args-list').innerHTML = t.argsList.map(item => '<li>' + item + '</li>').join('');
       document.getElementById('threat-title').textContent = t.threatTitle;
       document.getElementById('threat-intro').textContent = t.threatIntro;
-      document.getElementById('threat-list').innerHTML = t.threatList.map(function(item) { 
-        return '<li>' + item + '</li>'; 
-      }).join('');
+      document.getElementById('threat-list').innerHTML = t.threatList.map(item => '<li>' + item + '</li>').join('');
       document.getElementById('still-title').textContent = t.stillTitle;
       document.getElementById('still-text').textContent = t.stillText;
       document.getElementById('btn-agree').textContent = t.btnAgree;
@@ -453,28 +422,17 @@
     function showNo(){
       hideAll();
       viewNo.classList.remove('hidden');
-      document.querySelectorAll('.funny-content').forEach(function(el){ 
-        el.classList.remove('active'); 
-      });
+      document.querySelectorAll('.funny-content').forEach(function(el){ el.classList.remove('active'); });
     }
     
     function showFunnyContent(id){
-      document.querySelectorAll('.funny-content').forEach(function(el){ 
-        el.classList.remove('active'); 
-      });
+      document.querySelectorAll('.funny-content').forEach(function(el){ el.classList.remove('active'); });
       const content = document.getElementById('funny-' + id);
       if(content){
         content.classList.add('active');
         if(id === 'tara' && taraAudio){
           taraAudio.currentTime = 0;
           taraAudio.play().catch(function(){});
-        }
-        if(id === 'stillno'){
-          setTimeout(function(){
-            document.querySelectorAll('.social-icon').forEach(function(icon){
-              icon.classList.add('social-icon-warning');
-            });
-          }, 500);
         }
       }
     }
@@ -488,8 +446,7 @@
       btnCancel.style.top = randomY + 'px';
     }
     
-    function moveCancel(event){
-      if(event) event.preventDefault();
+    function moveCancel(){
       positionCancelButton();
     }
     
@@ -503,20 +460,16 @@
       el.style.height = size + 'px';
       el.style.left = x + '%';
       el.style.bottom = '-80px';
-      el.style.opacity = '1';
+      el.style.opacity = 1;
       el.style.transform = 'rotate(-45deg) scale(1)';
       el.style.transition = 'transform ' + dur + 'ms linear ' + delay + 'ms, opacity ' + dur + 'ms linear ' + delay + 'ms';
       el.style.filter = 'hue-rotate(' + hue + 'deg)';
       floating.appendChild(el);
-      setTimeout(function(){
+      requestAnimationFrame(function(){
         el.style.transform = 'translateY(-' + (window.innerHeight + 100) + 'px) rotate(-45deg) scale(.92)';
-        el.style.opacity = '0';
-      }, 10);
-      setTimeout(function(){ 
-        try{ 
-          if(el.parentNode) floating.removeChild(el); 
-        }catch(e){} 
-      }, dur + delay + 300);
+        el.style.opacity = 0;
+      });
+      setTimeout(function(){ try{ floating.removeChild(el); }catch(e){} }, dur + delay + 300);
     }
     
     function burstHearts(n){
@@ -532,26 +485,21 @@
         el.style.width=(6+Math.random()*14)+'px';
         el.style.height=(10+Math.random()*18)+'px';
         el.style.left=(35+Math.random()*30)+'%';
-        el.style.top=(35+Math.random()*30)+'%';
+        el.style.top=(35+Math.random()*30)+'%;
         el.style.background=colours[Math.floor(Math.random()*colours.length)];
         el.style.opacity='0.95';
         el.style.borderRadius='4px';
         el.style.zIndex='1000';
-        el.style.pointerEvents='none';
         document.body.appendChild(el);
         const dx=(Math.random()-0.5)*1400;
         const dy=-500-Math.random()*700;
         const rot=Math.random()*720;
         el.style.transition='transform 1600ms cubic-bezier(.2,.8,.2,1), opacity 1600ms';
-        setTimeout(function(){
+        requestAnimationFrame(function(){
           el.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) rotate(' + rot + 'deg)';
           el.style.opacity = '0';
-        }, 10);
-        setTimeout(function(){ 
-          try{
-            if(el.parentNode) el.remove(); 
-          }catch(e){}
-        }, 1700);
+        });
+        setTimeout(function(){ el.remove(); }, 1700);
       }
     }
     
@@ -562,14 +510,13 @@
       setTimeout(function(){ burstHearts(12); }, 1400);
       setTimeout(function(){ confettiBurst(); }, 200);
       setTimeout(function(){ confettiBurst(); }, 800);
-      if(floatingTimer) clearInterval(floatingTimer);
+      clearInterval(floatingTimer);
       floatingTimer = setInterval(function(){ burstHearts(5); }, 2500);
     }
     
     function stopShow(){
       floating.innerHTML = '';
-      if(floatingTimer) clearInterval(floatingTimer);
-      floatingTimer = null;
+      clearInterval(floatingTimer);
     }
   </script>
 </body>
