@@ -13,6 +13,11 @@
       --bg1:#fff0f6;
       --bg2:#fff7fb;
       --shadow: 0 14px 40px rgba(255,90,134,.15);
+      --quiz-bg:#1a1a2e;
+      --quiz-primary:#0f3460;
+      --quiz-secondary:#16213e;
+      --quiz-gold:#ffd700;
+      --quiz-green:#00ff88;
     }
     html,body{height:100%; margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:#222;}
     body::before {
@@ -137,6 +142,70 @@
     .funny-content li{margin:12px 0; font-size:16px; color:#555; line-height:1.6;}
     .social-icons{display:flex; gap:12px; justify-content:center; margin:12px 0; font-size:24px;}
     
+    /* Trap Question Styles */
+    .trap-view{
+      max-width:650px; 
+      margin:0 auto; 
+      text-align:center; 
+      padding:40px 32px; 
+      border-radius:20px; 
+      background:linear-gradient(135deg, #fff, #fff7fb);
+      border: 3px solid rgba(255,90,134,0.3);
+      box-shadow: 0 10px 40px rgba(255,90,134,0.2);
+      animation: slideInBounce 0.6s ease;
+    }
+    @keyframes slideInBounce {
+      0% { opacity: 0; transform: translateY(-50px); }
+      60% { transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .trap-title{
+      color: var(--pink-dark);
+      font-size: 28px;
+      margin: 0 0 20px;
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255,90,134,0.2);
+    }
+    .trap-equation{
+      background: linear-gradient(135deg, var(--pink), var(--pink-light));
+      color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      margin: 25px 0;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(255,90,134,0.3);
+      animation: glow 2s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 8px 20px rgba(255,90,134,0.3); }
+      50% { box-shadow: 0 8px 30px rgba(255,90,134,0.6); }
+    }
+    .trap-input{
+      width: 100%;
+      max-width: 400px;
+      padding: 15px 20px;
+      font-size: 18px;
+      border: 3px solid var(--pink-light);
+      border-radius: 12px;
+      margin: 20px auto;
+      display: block;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .trap-input:focus{
+      outline: none;
+      border-color: var(--pink);
+      box-shadow: 0 0 20px rgba(255,90,134,0.3);
+    }
+    .trap-hint{
+      color: #666;
+      font-size: 14px;
+      font-style: italic;
+      margin: 10px 0;
+    }
+    
     /* Gallery styles */
     .gallery-view{ text-align:center; padding:20px 24px 50px; }
     .gallery-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; max-width:900px; margin:30px auto; padding:0 10px;}
@@ -162,6 +231,166 @@
     .modal-prev{left:-80px;}
     .modal-next{right:-80px;}
     
+    /* Quiz Styles - Millionnaire */
+    .quiz-view{
+      background: linear-gradient(135deg, var(--quiz-bg), var(--quiz-primary));
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+      color: #fff;
+    }
+    .quiz-container{
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .quiz-header{
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease;
+    }
+    .quiz-header h2{
+      color: var(--quiz-gold);
+      font-size: 36px;
+      margin: 0 0 10px;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+      animation: glow 2s ease-in-out infinite;
+    }
+    .quiz-progress{
+      background: rgba(255,255,255,0.1);
+      height: 8px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .quiz-progress-bar{
+      background: linear-gradient(90deg, var(--quiz-gold), var(--quiz-green));
+      height: 100%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px var(--quiz-gold);
+    }
+    .quiz-question-number{
+      color: var(--quiz-gold);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+    .quiz-question-box{
+      background: linear-gradient(135deg, var(--quiz-secondary), var(--quiz-primary));
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      border: 2px solid rgba(255,215,0,0.3);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      animation: slideIn 0.6s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .quiz-question-text{
+      font-size: 24px;
+      color: #fff;
+      line-height: 1.6;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .quiz-options{
+      display: grid;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .quiz-option{
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 2px solid rgba(255,215,0,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      color: #fff;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-option:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .quiz-option:hover:before{
+      left: 100%;
+    }
+    .quiz-option:hover{
+      transform: translateX(10px) scale(1.02);
+      border-color: var(--quiz-gold);
+      box-shadow: 0 5px 20px rgba(255,215,0,0.4);
+      background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.1));
+    }
+    .quiz-option-letter{
+      background: var(--quiz-gold);
+      color: var(--quiz-bg);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-right: 15px;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .quiz-option.correct{
+      background: linear-gradient(135deg, rgba(0,255,136,0.3), rgba(0,255,136,0.1));
+      border-color: var(--quiz-green);
+      animation: correctPulse 0.6s ease;
+    }
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .quiz-result{
+      background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.1));
+      padding: 40px;
+      border-radius: 20px;
+      margin-top: 30px;
+      border: 2px solid var(--quiz-gold);
+      animation: fadeIn 0.8s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .quiz-result h3{
+      color: var(--quiz-gold);
+      font-size: 32px;
+      margin: 0 0 20px;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    }
+    .quiz-result p{
+      font-size: 20px;
+      line-height: 1.8;
+      color: #fff;
+      margin: 15px 0;
+    }
+    .quiz-hearts{
+      font-size: 40px;
+      margin: 20px 0;
+      animation: heartbeat 1.5s infinite;
+    }
+    
     .hidden{ display:none; }
     @media (max-width:600px){
       .photo-container{ width:260px; height:260px; }
@@ -183,6 +412,14 @@
       .modal-message{padding:20px 20px; margin-top:20px;}
       .modal-message h3{font-size:18px;}
       .modal-message p{font-size:14px;}
+      .quiz-header h2{font-size:28px;}
+      .quiz-question-text{font-size:20px;}
+      .quiz-option{font-size:16px; padding:15px;}
+      .quiz-result h3{font-size:26px;}
+      .quiz-result p{font-size:18px;}
+      .trap-title{font-size:24px;}
+      .trap-equation{font-size:20px; padding:20px;}
+      .trap-input{font-size:16px; padding:12px;}
     }
   </style>
 </head>
@@ -197,17 +434,37 @@
         </div>
       </header>
       <main>
+        <!-- QUESTION INITIALE -->
         <section id="view-question" class="question-view view">
           <div>
             <h3 class="title" id="q-title">Veux-tu être ma Valentine ? 💕</h3>
             <p class="subtitle" id="q-subtitle">J'ai préparé une surprise spéciale rien que pour toi...<br/>Clique sur OUI pour découvrir ce que j'ai dans le cœur ❤️</p>
             <div class="buttons">
-              <button class="btn btn-yes" onclick="showExcellent()" id="btn-yes">OUI 💖</button>
+              <button class="btn btn-yes" onclick="showTrap()" id="btn-yes">OUI 💖</button>
               <button class="btn btn-no" onclick="showNo()" id="btn-no">NON 💔</button>
             </div>
             <p style="margin-top:24px; color:#999; font-size:14px;" id="q-footer">💌 Avec tout mon amour...</p>
           </div>
         </section>
+        
+        <!-- QUESTION PIÈGE -->
+        <section id="view-trap" class="trap-view view hidden">
+          <h2 class="trap-title" id="trap-title">🎯 Prouve que tu m'aimes vraiment ! 🎯</h2>
+          <p style="color:#666; font-size:16px; margin:15px 0;" id="trap-subtitle">Résous cette équation d'amour pour continuer...</p>
+          
+          <div class="trap-equation" id="trap-equation">
+            Mon amour ÷ Ton sourire × ∞ = ?
+          </div>
+          
+          <input type="text" class="trap-input" id="trap-answer" placeholder="Entre ta réponse ici..." />
+          <p class="trap-hint" id="trap-hint">💡 Indice : La réponse est dans ton cœur...</p>
+          
+          <div class="buttons" style="margin-top:30px;">
+            <button class="btn btn-yes" onclick="checkTrapAnswer()" id="trap-submit">Valider ma réponse 💕</button>
+          </div>
+        </section>
+        
+        <!-- EXCELLENT CHOIX -->
         <section id="view-excellent" class="excellent-view view hidden">
           <h2 id="ex-title">Excellent choix ! 💖</h2>
           <p style="font-size:18px; color:#666; max-width:500px; margin:16px auto;" id="ex-text">Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕</p>
@@ -216,6 +473,8 @@
             <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel(event)">Annuler</button>
           </div>
         </section>
+        
+        <!-- PHOTO -->
         <section id="view-photo" class="photo-view view hidden">
           <div class="photo-container">
             <div class="photo-heart-frame"></div>
@@ -229,6 +488,8 @@
             <button class="btn btn-memories" onclick="showGallery()" id="btn-memories">📸 Voir nos souvenirs</button>
           </div>
         </section>
+        
+        <!-- GALERIE -->
         <section id="view-gallery" class="gallery-view view hidden">
           <h2 id="gallery-title">Nos précieux souvenirs 📸💕</h2>
           <p style="color:#666; margin:16px 0; font-size:16px;" id="gallery-subtitle">Nos premiers moments ensemble... Le début de notre belle histoire d'amour ✨</p>
@@ -239,7 +500,7 @@
             </div>
             <div class="gallery-item" onclick="openModal(1)">
               <img src="images/gallery-2.jpg" alt="Premier regard" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=400&fit=crop'">
-              <div class="gallery-overlay" id="overlay-2">Le jour où mon cœur a chavire 💕</div>
+              <div class="gallery-overlay" id="overlay-2">Le jour où mon cœur a chaviré 💕</div>
             </div>
             <div class="gallery-item" onclick="openModal(2)">
               <img src="images/gallery-3.jpg" alt="Premier sourire" onerror="this.src='https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=400&h=400&fit=crop'">
@@ -278,6 +539,8 @@
             <button class="btn btn-yes" onclick="showPhoto()" id="btn-back-photo">❤️ Retour</button>
           </div>
         </section>
+        
+        <!-- SECTION NON -->
         <section id="view-no" class="no-view view hidden">
           <h2 id="no-title">Oh non... tu as dit NON ? 😢</h2>
           <p style="color:#555;" id="no-subtitle">Bon, si c'est comme ça... choisis une option ! 😄</p>
@@ -302,7 +565,7 @@
             <p style="color:#666; font-size:16px; line-height:1.8;" id="drama-text">
               Mon cœur est en mille morceaux... 😭<br/>
               Les oiseaux ne chantent plus... 🐦<br/>
-              Le soleil refuse de briller... ☀️<br/>
+              Le soleil refuse de briller... ���️<br/>
               Même mon café a un goût amer maintenant... ☕<br/>
               Comment peux-tu me faire ça ? 😢💔
             </p>
@@ -347,7 +610,38 @@
             </div>
           </div>
           <div class="buttons" style="margin-top:32px;">
-            <button class="btn btn-yes" onclick="showExcellent()" id="btn-finally">❤️ Finalement... OUI !</button>
+            <button class="btn btn-yes" onclick="showQuiz()" id="btn-finally">❤️ Finalement... OUI !</button>
+          </div>
+        </section>
+        
+        <!-- QUIZ SECTION -->
+        <section id="view-quiz" class="quiz-view hidden">
+          <div class="quiz-container">
+            <div class="quiz-header">
+              <h2 id="quiz-title">💕 Quiz de l'Amour 💕</h2>
+              <p id="quiz-subtitle" style="font-size:18px; color:rgba(255,215,0,0.9);">Avant de continuer, réponds à ces questions romantiques !</p>
+            </div>
+            
+            <div class="quiz-progress">
+              <div class="quiz-progress-bar" id="quiz-progress-bar" style="width:0%"></div>
+            </div>
+            
+            <div class="quiz-question-number" id="quiz-number">Question 1 sur 5</div>
+            
+            <div class="quiz-question-box" id="quiz-question-box">
+              <div class="quiz-question-text" id="quiz-question"></div>
+              <div class="quiz-options" id="quiz-options"></div>
+            </div>
+            
+            <div class="quiz-result hidden" id="quiz-result">
+              <div class="quiz-hearts">💕 💖 💗 💓 💝</div>
+              <h3 id="quiz-result-title">Bravo mon amour !</h3>
+              <p id="quiz-result-text">Tu as répondu à toutes les questions avec ton cœur ! Toutes les réponses étaient parfaites car elles viennent de toi. 💕</p>
+              <p style="font-size:22px; margin-top:30px;">Tu mérites le monde entier ! 🌎✨</p>
+              <div style="margin-top:30px;">
+                <button class="btn btn-yes" onclick="showExcellent()" style="font-size:20px; padding:18px 40px;">Continuer l'aventure 💖</button>
+              </div>
+            </div>
           </div>
         </section>
       </main>
@@ -374,6 +668,8 @@
   <script>
     let currentLang = 'fr';
     let currentImageIndex = 0;
+    let currentQuizQuestion = 0;
+    
     const galleryImages = [
       'images/gallery-1.jpg',
       'images/gallery-2.jpg',
@@ -386,6 +682,103 @@
       'images/gallery-9.jpg',
       'images/gallery-10.jpg'
     ];
+    
+    const quizQuestions = {
+      fr: [
+        {
+          question: "Quelle est notre chanson d'amour préférée de Sushant KC ? 🎵",
+          options: [
+            "A: Sarangi 💕",
+            "B: Maya Ma 💘",
+            "C: Behos 😍",
+            "D: Risaune Bhaye 🌹"
+          ]
+        },
+        {
+          question: "Quel est le moment où tu es tombée amoureuse de moi ? 💘",
+          options: [
+            "A: La première fois que tu m'as vu ✨",
+            "B: Quand je t'ai fait rire 😊",
+            "C: Quand je t'ai dit 'je t'aime' 💕",
+            "D: Tous les jours un peu plus 💖"
+          ]
+        },
+        {
+          question: "Qu'est-ce que j'aime le plus chez toi ? 😍",
+          options: [
+            "A: Ton sourire qui illumine ma vie ☀️",
+            "B: Ton cœur si généreux 💝",
+            "C: Ta façon de m'aimer 💞",
+            "D: Absolument TOUT ! 🌟"
+          ]
+        },
+        {
+          question: "Notre chanson de Sushant KC qui représente notre amour ? 🎵",
+          options: [
+            "A: Sathi (Compagnon) 👫",
+            "B: Maya Ko Katha (Histoire d'amour) 📖",
+            "C: Mero Maya (Mon amour) 💗",
+            "D: Yaad (Souvenirs) 🌸"
+          ]
+        },
+        {
+          question: "Dans 10 ans, nous serons... 🔮",
+          options: [
+            "A: Toujours aussi amoureux 💕",
+            "B: Avec notre 2ème bébé 👶👶",
+            "C: En train de voyager le monde 🌍",
+            "D: Tout ça à la fois ! ✨"
+          ]
+        }
+      ],
+      en: [
+        {
+          question: "What is our favorite Sushant KC love song? 🎵",
+          options: [
+            "A: Sarangi 💕",
+            "B: Maya Ma 💘",
+            "C: Behos 😍",
+            "D: Risaune Bhaye 🌹"
+          ]
+        },
+        {
+          question: "When did you fall in love with me? 💘",
+          options: [
+            "A: The first time you saw me ✨",
+            "B: When I made you laugh 😊",
+            "C: When I said 'I love you' 💕",
+            "D: A little more every day 💖"
+          ]
+        },
+        {
+          question: "What do I love most about you? 😍",
+          options: [
+            "A: Your smile that lights up my life ☀️",
+            "B: Your generous heart 💝",
+            "C: The way you love me 💞",
+            "D: Absolutely EVERYTHING! 🌟"
+          ]
+        },
+        {
+          question: "Our Sushant KC song that represents our love? 🎵",
+          options: [
+            "A: Sathi (Companion) 👫",
+            "B: Maya Ko Katha (Love story) 📖",
+            "C: Mero Maya (My love) 💗",
+            "D: Yaad (Memories) 🌸"
+          ]
+        },
+        {
+          question: "In 10 years, we will be... 🔮",
+          options: [
+            "A: Still as much in love 💕",
+            "B: With our 2nd baby 👶👶",
+            "C: Traveling the world 🌍",
+            "D: All of the above! ✨"
+          ]
+        }
+      ]
+    };
     
     const romanticMessages = {
       fr: [
@@ -482,6 +875,11 @@
         btnYes: 'OUI 💖',
         btnNo: 'NON 💔',
         qFooter: '💌 Avec tout mon amour...',
+        trapTitle: '🎯 Prouve que tu m\'aimes vraiment ! 🎯',
+        trapSubtitle: 'Résous cette équation d\'amour pour continuer...',
+        trapEquation: 'Mon amour ÷ Ton sourire × ∞ = ?',
+        trapHint: '💡 Indice : La réponse est dans ton cœur...',
+        trapSubmit: 'Valider ma réponse 💕',
         exTitle: 'Excellent choix ! 💖',
         exText: 'Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕',
         btnContinue: 'Poursuivre 🎉',
@@ -512,14 +910,19 @@
         threatIntro: 'Attention, voici ce qui va se passer :',
         threatList: ['Je vais plus changer les couches de bébé ! 👶💩','Je vais laisser bébé pleurer toute la nuit ! 👶😭','Je vais regarder nos films préférés sans toi ! 📺','Je vais twerker devant tes parents ! 💃🍑','Je vais apprendre à danser le tango... seul ! 💃','Je vais devenir ami avec ton ex ! 😱','On va faire un 2ème bébé ! 👶👶💕'],
         stillTitle: '⚠️ ATTENTION !',
-        stillText: 'Je vais poster cette photo moche sur Facebook et Instagram !',
+        stillText: 'Je vais poster cette photo moche sur Facebook et Instagram
+                  stillText: 'Je vais poster cette photo moche sur Facebook et Instagram !',
         btnAgree: 'D\'accord !!! 😱',
         btnFinally: '❤️ Finalement... OUI!',
+        quizTitle: '💕 Quiz de l\'Amour 💕',
+        quizSubtitle: 'Avant de continuer, réponds à ces questions romantiques !',
+        quizResultTitle: 'Bravo mon amour !',
+        quizResultText: 'Tu as répondu à toutes les questions avec ton cœur ! Toutes les réponses étaient parfaites car elles viennent de toi. 💕',
         overlays: [
           'Notre première photo ensemble 💕',
           'Le jour où mon cœur a chaviré 💕',
           'Ton sourire qui illumine ma vie 💕',
-          'Nos premiers instants magiques 💕',
+          'Nos premiers instants magiques ��',
           'Quand notre complicité est née 💕',
           'Le bonheur dans tes yeux 💕',
           'Nos premiers moments de tendresse 💕',
@@ -535,6 +938,11 @@
         btnYes: 'YES 💖',
         btnNo: 'NO 💔',
         qFooter: '💌 With all my love...',
+        trapTitle: '🎯 Prove that you really love me! 🎯',
+        trapSubtitle: 'Solve this love equation to continue...',
+        trapEquation: 'My love ÷ Your smile × ∞ = ?',
+        trapHint: '💡 Hint: The answer is in your heart...',
+        trapSubmit: 'Validate my answer 💕',
         exTitle: 'Excellent choice! 💖',
         exText: 'I knew you\'d say yes! You are the best decision of my life 💕',
         btnContinue: 'Continue 🎉',
@@ -568,6 +976,10 @@
         stillText: 'I\'m going to post this ugly photo on Facebook and Instagram!',
         btnAgree: 'Okay!!! 😱',
         btnFinally: '❤️ Finally... YES!',
+        quizTitle: '💕 Love Quiz 💕',
+        quizSubtitle: 'Before continuing, answer these romantic questions!',
+        quizResultTitle: 'Bravo my love!',
+        quizResultText: 'You answered all the questions with your heart! All answers were perfect because they come from you. 💕',
         overlays: [
           'Our first photo together 💕',
           'The day my heart fell 💕',
@@ -599,6 +1011,11 @@
       document.getElementById('btn-yes').textContent = t.btnYes;
       document.getElementById('btn-no').textContent = t.btnNo;
       document.getElementById('q-footer').textContent = t.qFooter;
+      document.getElementById('trap-title').textContent = t.trapTitle;
+      document.getElementById('trap-subtitle').textContent = t.trapSubtitle;
+      document.getElementById('trap-equation').textContent = t.trapEquation;
+      document.getElementById('trap-hint').textContent = t.trapHint;
+      document.getElementById('trap-submit').textContent = t.trapSubmit;
       document.getElementById('ex-title').textContent = t.exTitle;
       document.getElementById('ex-text').textContent = t.exText;
       document.getElementById('btn-continue').textContent = t.btnContinue;
@@ -636,6 +1053,10 @@
       document.getElementById('still-text').textContent = t.stillText;
       document.getElementById('btn-agree').textContent = t.btnAgree;
       document.getElementById('btn-finally').textContent = t.btnFinally;
+      document.getElementById('quiz-title').textContent = t.quizTitle;
+      document.getElementById('quiz-subtitle').textContent = t.quizSubtitle;
+      document.getElementById('quiz-result-title').textContent = t.quizResultTitle;
+      document.getElementById('quiz-result-text').textContent = t.quizResultText;
       
       for(let i = 0; i < 10; i++) {
         document.getElementById('overlay-' + (i+1)).textContent = t.overlays[i];
@@ -648,24 +1069,43 @@
     }
 
     const viewQuestion = document.getElementById('view-question');
+    const viewTrap = document.getElementById('view-trap');
     const viewExcellent = document.getElementById('view-excellent');
     const viewPhoto = document.getElementById('view-photo');
     const viewGallery = document.getElementById('view-gallery');
     const viewNo = document.getElementById('view-no');
+    const viewQuiz = document.getElementById('view-quiz');
     const btnCancel = document.getElementById('btnCancel');
     
     function hideAll(){
       viewQuestion.classList.add('hidden');
+      viewTrap.classList.add('hidden');
       viewExcellent.classList.add('hidden');
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
       viewNo.classList.add('hidden');
+      viewQuiz.classList.add('hidden');
       stopShow();
     }
     
     function showQuestion(){
       hideAll();
       viewQuestion.classList.remove('hidden');
+    }
+    
+    function showTrap(){
+      hideAll();
+      viewTrap.classList.remove('hidden');
+      document.getElementById('trap-answer').value = '';
+    }
+    
+    function checkTrapAnswer(){
+      const answer = document.getElementById('trap-answer').value.trim();
+      // Peu importe la réponse, on va vers NON ! 😂
+      setTimeout(function(){
+        alert('😂 Désolé, mauvaise réponse ! Tu pensais vraiment que j\'allais te laisser t\'en tirer comme ça ? 😏');
+        showNo();
+      }, 300);
     }
     
     function showExcellent(){
@@ -693,6 +1133,13 @@
       });
     }
     
+    function showQuiz(){
+      hideAll();
+      viewQuiz.classList.remove('hidden');
+      currentQuizQuestion = 0;
+      displayQuizQuestion();
+    }
+    
     function showFunnyContent(id){
       document.querySelectorAll('.funny-content').forEach(function(el){ 
         el.classList.remove('active'); 
@@ -718,6 +1165,54 @@
     }
     
     positionCancelButton();
+    
+    // Quiz functions
+    function displayQuizQuestion(){
+      const questions = quizQuestions[currentLang];
+      const question = questions[currentQuizQuestion];
+      const totalQuestions = questions.length;
+      
+      document.getElementById('quiz-number').textContent = 'Question ' + (currentQuizQuestion + 1) + ' sur ' + totalQuestions;
+      document.getElementById('quiz-question').textContent = question.question;
+      
+      const progress = ((currentQuizQuestion + 1) / totalQuestions) * 100;
+      document.getElementById('quiz-progress-bar').style.width = progress + '%';
+      
+      const optionsHtml = question.options.map(function(option, index){
+        return '<div class="quiz-option" onclick="selectQuizAnswer(' + index + ')">' +
+               '<div class="quiz-option-letter">' + option.charAt(0) + '</div>' +
+               '<div>' + option.substring(3) + '</div>' +
+               '</div>';
+      }).join('');
+      
+      document.getElementById('quiz-options').innerHTML = optionsHtml;
+      document.getElementById('quiz-question-box').classList.remove('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+    }
+    
+    function selectQuizAnswer(index){
+      const options = document.querySelectorAll('.quiz-option');
+      options[index].classList.add('correct');
+      
+      setTimeout(function(){
+        currentQuizQuestion++;
+        const totalQuestions = quizQuestions[currentLang].length;
+        
+        if(currentQuizQuestion < totalQuestions){
+          displayQuizQuestion();
+        } else {
+          showQuizResult();
+        }
+      }, 800);
+    }
+    
+    function showQuizResult(){
+      document.getElementById('quiz-question-box').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+      confettiBurst();
+      setTimeout(function(){ confettiBurst(); }, 500);
+      setTimeout(function(){ confettiBurst(); }, 1000);
+    }
     
     function updateModalMessage(index) {
       const messages = romanticMessages[currentLang];
