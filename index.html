@@ -39,6 +39,17 @@
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-20px) rotate(5deg); }
     }
+    
+    /* Animations de transition */
+    .view {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
     .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
     .card{width:100%; max-width:950px; background:#fff; border-radius:20px; box-shadow:var(--shadow); overflow:hidden; border: 3px solid rgba(255,90,134,0.1);}
     header{padding:20px 28px; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(120deg, rgba(255,90,134,0.08), rgba(255,139,171,0.05));}
@@ -80,6 +91,7 @@
     
     /* Dark trap page styles */
     .dark-trap-view{
+      position: relative;
       text-align:center; 
       padding:40px 24px; 
       background:linear-gradient(135deg, #1a0a0f, #2d1520);
@@ -88,6 +100,7 @@
       flex-direction:column;
       justify-content:center;
       align-items:center;
+      overflow: hidden;
     }
     .dark-trap-view h2{
       color:#ff4757; 
@@ -95,7 +108,7 @@
       margin:20px 0; 
       font-weight:800;
       text-shadow: 0 0 20px rgba(255,71,87,0.5);
-      animation: pulse-red 2s ease-in-out infinite;
+      animation: pulse-red 2s ease-in-out infinite, glitch 0.3s infinite;
     }
     .dark-trap-view p{
       color:#fff; 
@@ -107,6 +120,32 @@
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.05); opacity: 0.9; }
     }
+    
+    /* Effet Glitch */
+    @keyframes glitch {
+      0%, 100% { transform: translate(0) scale(1); }
+      25% { transform: translate(-2px, 2px) scale(1.01); }
+      50% { transform: translate(2px, -2px) scale(0.99); }
+      75% { transform: translate(-2px, -2px) scale(1.01); }
+    }
+    
+    /* Particules tombantes */
+    .dark-particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #ff4757;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ff4757;
+      animation: particleFall linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes particleFall {
+      0% { top: -10px; opacity: 1; }
+      100% { top: 110%; opacity: 0; }
+    }
+    
     .trap-question-view{
       text-align:center; 
       padding:40px 24px;
@@ -123,6 +162,7 @@
       margin:30px 0; 
       font-weight:800;
       text-shadow: 0 0 15px rgba(255,107,107,0.6);
+      animation: glitch 0.5s infinite;
     }
     .trap-question-view p{
       color:#ddd; 
@@ -169,6 +209,14 @@
       font-size:18px;
       position:absolute;
       transition:all 0.1s ease;
+    }
+    
+    .attempt-counter{
+      margin-top:20px;
+      color:#ff6b6b;
+      font-size:16px;
+      font-weight:700;
+      text-shadow: 0 0 10px rgba(255,107,107,0.5);
     }
     
     /* Falling hearts animation */
@@ -254,7 +302,7 @@
     .gallery-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; max-width:900px; margin:30px auto; padding:0 10px;}
     .gallery-item{position:relative; overflow:hidden; border-radius:16px; box-shadow:0 8px 20px rgba(255,90,134,0.15); transition:all 0.3s ease; cursor:pointer; aspect-ratio:1;}
     .gallery-item:hover{transform:scale(1.05); box-shadow:0 12px 30px rgba(255,90,134,0.3);}
-    .gallery-item img{width:100%; height:100%; object-fit:cover; display:block;}
+    .gallery-item img{width:100%; height:100%; object-fit:cover; display:block; loading:lazy;}
     .gallery-overlay{position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(255,90,134,0.95), rgba(255,90,134,0.7)); color:#fff; padding:16px 12px; opacity:0; transition:opacity 0.3s; font-weight:700; font-size:13px; line-height:1.4;}
     .gallery-item:hover .gallery-overlay{opacity:1;}
     
@@ -303,6 +351,11 @@
 <body>
   <!-- Falling hearts background -->
   <div class="falling-hearts" id="fallingHearts"></div>
+  
+  <!-- Audio pour Tara baji lai lai -->
+  <audio id="taraBajiAudio" loop>
+    <source src="sounds/tara-baji.mp3" type="audio/mpeg">
+  </audio>
   
   <div class="wrap">
     <div class="card">
@@ -358,6 +411,7 @@
             <button class="btn-trap-yes" onclick="showNo()" id="btn-trap-yes">OUI 😈</button>
             <button class="btn-trap-no" id="btnTrapNo" onmouseenter="moveTrapNo(event)">NON 💔</button>
           </div>
+          <div class="attempt-counter" id="attemptCounter"></div>
         </section>
         
         <section id="view-excellent" class="excellent-view view hidden">
@@ -451,6 +505,9 @@
               💖 Mon cœur attend ta réponse... 💖<br/>
               😊 Allez, sois gentille et dis OUI ! 😊
             </p>
+            <div class="buttons" style="margin-top:20px;">
+              <button class="btn btn-yes" onclick="toggleTaraMusic()" id="btnTaraMusic">▶️ Jouer la musique</button>
+            </div>
           </div>
           <div id="funny-dramatic" class="funny-content">
             <h3 style="color:var(--pink); margin-bottom:16px;" id="drama-title">💔 Pourquoi tu me brises le cœur ?</h3>
@@ -530,6 +587,8 @@
     let currentLang = 'fr';
     let currentImageIndex = 0;
     let currentQuizIndex = 0;
+    let escapeAttempts = 0;
+    let isTaraPlaying = false;
     
     const galleryImages = [
       'images/gallery-1.jpg',
@@ -562,6 +621,67 @@
       ]
     };
     
+    // Fonction pour vibrer (mobile)
+    function vibrate() {
+      if(navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+      }
+    }
+    
+    // Fonction plein écran
+    function goFullscreen() {
+      try {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen();
+        }
+      } catch(e) {
+        console.log('Fullscreen not supported');
+      }
+    }
+    
+    // Fonction pour jouer/arrêter la musique Tara baji
+    function toggleTaraMusic() {
+      const audio = document.getElementById('taraBajiAudio');
+      const btn = document.getElementById('btnTaraMusic');
+      
+      if(isTaraPlaying) {
+        audio.pause();
+        btn.textContent = '▶️ Jouer la musique';
+        btn.classList.remove('btn-danger');
+        btn.classList.add('btn-yes');
+        isTaraPlaying = false;
+      } else {
+        audio.play().catch(e => {
+          alert('⚠️ Place le fichier "tara-baji.mp3" dans le dossier "sounds/" pour activer la musique !');
+        });
+        btn.textContent = '⏸️ Arrêter la musique';
+        btn.classList.remove('btn-yes');
+        btn.classList.add('btn-danger');
+        isTaraPlaying = true;
+      }
+    }
+    
+    // Créer des particules tombantes pour la page sombre
+    function createDarkParticles() {
+      const container = document.getElementById('view-dark-trap');
+      // Nettoyer les anciennes particules
+      const oldParticles = container.querySelectorAll('.dark-particle');
+      oldParticles.forEach(p => p.remove());
+      
+      for(let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'dark-particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (3 + Math.random() * 3) + 's';
+        particle.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(particle);
+      }
+    }
+    
     // Falling hearts animation
     function createFallingHeart() {
       const heartsContainer = document.getElementById('fallingHearts');
@@ -582,6 +702,7 @@
     
     // Quiz functions
     function showQuiz() {
+      goFullscreen(); // Active le mode plein écran
       hideAll();
       currentQuizIndex = 0;
       document.getElementById('view-quiz').classList.remove('hidden');
@@ -628,19 +749,33 @@
       }
     }
     
-    // Dark trap page functions
+    // Dark trap page functions avec minuteur
     function showDarkTrap() {
+      vibrate(); // Vibre le téléphone
       hideAll();
       document.getElementById('view-dark-trap').classList.remove('hidden');
-      // Après 3 secondes, aller vers la page trap question
-      setTimeout(function() {
-        showTrapQuestion();
-      }, 3000);
+      createDarkParticles(); // Ajoute les particules
+      
+      let countdown = 3;
+      const subtitleEl = document.getElementById('dark-trap-subtitle');
+      
+      const timer = setInterval(() => {
+        countdown--;
+        if(countdown > 0) {
+          subtitleEl.textContent = `Redirection dans ${countdown}... 👻`;
+        } else {
+          clearInterval(timer);
+          showTrapQuestion();
+        }
+      }, 1000);
     }
     
     function showTrapQuestion() {
+      vibrate(); // Vibre à nouveau
       hideAll();
+      escapeAttempts = 0;
       document.getElementById('view-trap-question').classList.remove('hidden');
+      document.getElementById('attemptCounter').textContent = '';
       positionTrapNo();
     }
     
@@ -656,7 +791,26 @@
     
     function moveTrapNo(event) {
       if(event) event.preventDefault();
+      vibrate(); // Vibre à chaque tentative
+      escapeAttempts++;
+      
+      const counterEl = document.getElementById('attemptCounter');
+      if(escapeAttempts <= 5) {
+        counterEl.textContent = `🔥 ${escapeAttempts} tentative${escapeAttempts > 1 ? 's' : ''}...`;
+      } else if(escapeAttempts <= 10) {
+        counterEl.textContent = `😈 ${escapeAttempts} tentatives ! Tu ne peux pas m'échapper ! 😈`;
+      } else {
+        counterEl.textContent = `👹 ${escapeAttempts} TENTATIVES ! ABANDONNE ! 👹`;
+      }
+      
       positionTrapNo();
+    }
+    
+    // Confettis explosifs méga version
+    function megaConfettiBurst() {
+      for(let i = 0; i < 5; i++) {
+        setTimeout(() => confettiBurst(), i * 100);
+      }
     }
     
     const romanticMessages = {
@@ -763,7 +917,7 @@
         quizNo: 'NON 💔',
         darkTrapTitle: '😈 Oups... 😈',
         darkTrapText: 'Tu es maintenant forcée de voir le NON...',
-        darkTrapSubtitle: 'Il n\'y a aucune échappatoire 👻',
+        darkTrapSubtitle: 'Redirection dans 3... 👻',
         trapTitle: '⚠️ Dernière chance... ⚠️',
         trapSubtitle: 'Est-ce que tu veux vraiment aller vers la page NON ? 🤔',
         btnTrapYes: 'OUI 😈',
@@ -776,7 +930,7 @@
         galleryTitle: 'Nos précieux souvenirs 📸💕',
         gallerySubtitle: 'Nos premiers moments ensemble... Le début de notre belle histoire d\'amour ✨',
         btnBackPhoto: '❤️ Retour',
-        noTitle: 'Oh non... tu as dit NON ? 😢',
+                noTitle: 'Oh non... tu as dit NON ? 😢',
         noSubtitle: 'Bon, si c\'est comme ça... choisis une option ! 😄',
         funnyBtn1: '🎵 Tara baji lai lai',
         funnyBtn2: '💔 Pourquoi tu me brises le cœur ?',
@@ -826,7 +980,7 @@
         quizNo: 'NO 💔',
         darkTrapTitle: '😈 Oops... 😈',
         darkTrapText: 'You are now forced to see the NO...',
-        darkTrapSubtitle: 'There is no escape 👻',
+        darkTrapSubtitle: 'Redirecting in 3... 👻',
         trapTitle: '⚠️ Last chance... ⚠️',
         trapSubtitle: 'Do you really want to go to the NO page? 🤔',
         btnTrapYes: 'YES 😈',
@@ -855,7 +1009,7 @@
         argsList: ['I give the best hugs in the world! 🤗','I can cook... well, order food! 🍕','I know all the bad jokes! 😂','I\'m an expert at Netflix & Chill! 📺','And most importantly... I love you like crazy! 💕'],
         threatTitle: '😱 Consequences of your NO',
         threatIntro: 'Warning, here\'s what will happen:',
-                       threatList: ['I won\'t change baby\'s diapers anymore! 👶💩','I\'ll let baby cry all night long! 👶😭','I\'ll watch our favorite movies without you! 📺','I\'ll twerk in front of your parents! 💃🍑','I\'ll learn to tango... alone! 💃','I\'ll become friends with your ex! 😱','We\'re going to have a 2nd baby! 👶👶💕'],
+        threatList: ['I won\'t change baby\'s diapers anymore! 👶💩','I\'ll let baby cry all night long! 👶😭','I\'ll watch our favorite movies without you! 📺','I\'ll twerk in front of your parents! 💃🍑','I\'ll learn to tango... alone! 💃','I\'ll become friends with your ex! 😱','We\'re going to have a 2nd baby! 👶👶💕'],
         stillTitle: '⚠️ WARNING!',
         stillText: 'I\'m going to post this ugly photo on Facebook and Instagram!',
         btnAgree: 'Okay!!! 😱',
@@ -900,7 +1054,6 @@
       document.getElementById('quiz-no').textContent = t.quizNo;
       document.getElementById('dark-trap-title').textContent = t.darkTrapTitle;
       document.getElementById('dark-trap-text').textContent = t.darkTrapText;
-      document.getElementById('dark-trap-subtitle').textContent = t.darkTrapSubtitle;
       document.getElementById('trap-title').textContent = t.trapTitle;
       document.getElementById('trap-subtitle').textContent = t.trapSubtitle;
       document.getElementById('btn-trap-yes').textContent = t.btnTrapYes;
@@ -990,6 +1143,7 @@
     function showPhoto(){
       hideAll();
       viewPhoto.classList.remove('hidden');
+      megaConfettiBurst(); // Confettis explosifs !
       startShow();
     }
     
@@ -1004,6 +1158,16 @@
       document.querySelectorAll('.funny-content').forEach(function(el){ 
         el.classList.remove('active'); 
       });
+      // Arrête la musique si elle joue
+      const audio = document.getElementById('taraBajiAudio');
+      audio.pause();
+      isTaraPlaying = false;
+      const btn = document.getElementById('btnTaraMusic');
+      if(btn) {
+        btn.textContent = '▶️ Jouer la musique';
+        btn.classList.remove('btn-danger');
+        btn.classList.add('btn-yes');
+      }
     }
     
     function showFunnyContent(id){
