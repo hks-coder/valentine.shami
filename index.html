@@ -225,23 +225,14 @@
             <h3 class="title" id="q-title">Veux-tu être ma Valentine ? 💕</h3>
             <p class="subtitle" id="q-subtitle">J'ai préparé une surprise spéciale rien que pour toi...<br/>Clique sur OUI pour découvrir ce que j'ai dans le cœur ❤️</p>
             <div class="buttons">
-              <button class="btn btn-yes" onclick="showExcellent()" id="btn-yes">OUI 💖</button>
+              <button class="btn btn-yes" onclick="showQuiz()" id="btn-yes">OUI 💖</button>
               <button class="btn btn-no" onclick="showNo()" id="btn-no">NON 💔</button>
             </div>
             <p style="margin-top:24px; color:#999; font-size:14px;" id="q-footer">💌 Avec tout mon amour...</p>
           </div>
         </section>
         
-        <section id="view-excellent" class="excellent-view view hidden">
-          <h2 id="ex-title">Excellent choix ! 💖</h2>
-          <p style="font-size:18px; color:#666; max-width:500px; margin:16px auto;" id="ex-text">Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕</p>
-          <div class="choice-buttons">
-            <button class="btn btn-yes" onclick="showQuiz()" style="position:relative; z-index:10;" id="btn-continue">Poursuivre 🎉</button>
-            <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel(event)">Annuler</button>
-          </div>
-        </section>
-        
-        <!-- NEW QUIZ SECTION -->
+        <!-- QUIZ SECTION (AVANT Excellent choix) -->
         <section id="view-quiz" class="quiz-view view hidden">
           <h2 id="quiz-title">Quelques petites questions... 💝</h2>
           <div class="quiz-progress">
@@ -255,6 +246,15 @@
           <div class="buttons">
             <button class="btn btn-yes" onclick="answerQuiz(true)" id="quiz-yes">OUI 💖</button>
             <button class="btn btn-no" onclick="answerQuiz(false)" id="quiz-no">NON 💔</button>
+          </div>
+        </section>
+        
+        <section id="view-excellent" class="excellent-view view hidden">
+          <h2 id="ex-title">Excellent choix ! 💖</h2>
+          <p style="font-size:18px; color:#666; max-width:500px; margin:16px auto;" id="ex-text">Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕</p>
+          <div class="choice-buttons">
+            <button class="btn btn-yes" onclick="showPhoto()" style="position:relative; z-index:10;" id="btn-continue">Poursuivre 🎉</button>
+            <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel(event)">Annuler</button>
           </div>
         </section>
         
@@ -387,11 +387,11 @@
               <span title="Instagram">📷</span>
             </div>
             <div style="margin-top:24px;">
-              <button class="btn btn-danger" onclick="showExcellent()" id="btn-agree">D'accord !!! 😱</button>
+              <button class="btn btn-danger" onclick="showQuestion()" id="btn-agree">D'accord !!! 😱</button>
             </div>
           </div>
           <div class="buttons" style="margin-top:32px;">
-            <button class="btn btn-yes" onclick="showExcellent()" id="btn-finally">❤️ Finalement... OUI !</button>
+            <button class="btn btn-yes" onclick="showQuestion()" id="btn-finally">❤️ Finalement... OUI !</button>
           </div>
         </section>
       </main>
@@ -509,8 +509,8 @@
           // Next question
           updateQuizQuestion();
         } else {
-          // All questions answered correctly!
-          showPhoto();
+          // All questions answered correctly! Go to Excellent choix
+          showExcellent();
         }
       } else {
         // Wrong answer - go to NO page
@@ -706,7 +706,7 @@
         btnAgree: 'Okay!!! 😱',
         btnFinally: '❤️ Finally... YES!',
         overlays: [
-          'Our first photo together 💕',
+          'Our first photo together Love you my budi  💕',
           'The day my heart fell 💕',
           'Your smile that lights up my life 💕',
           'Our first magical moments 💕',
@@ -808,9 +808,8 @@
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
       viewNo.classList.add('hidden');
-      stopShow();
+            stopShow();
     }
-    
     function showQuestion(){
       hideAll();
       viewQuestion.classList.remove('hidden');
@@ -832,6 +831,7 @@
       hideAll();
       viewGallery.classList.remove('hidden');
     }
+    
     function showNo(){
       hideAll();
       viewNo.classList.remove('hidden');
