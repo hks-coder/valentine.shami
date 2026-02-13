@@ -67,6 +67,25 @@
     .excellent-view p{color:#666; font-size:18px; margin:16px 0;}
     .choice-buttons{position:relative; display:flex; justify-content:center; gap:16px; margin-top:30px; flex-wrap:wrap; min-height:80px;}
     .btn-cancel{background:#f5f5f5; color:#666; border: 2px solid #e0e0e0; position:absolute; transition: all 0.1s ease;}
+    
+    /* Quiz section styles */
+    .quiz-view{ text-align:center; padding:20px 24px 50px; }
+    .quiz-view h2{color:var(--pink); font-size:32px; margin:20px 0; font-weight:800;}
+    .quiz-view p{color:#666; font-size:18px; margin:16px 0;}
+    .quiz-progress{display:flex; justify-content:center; gap:8px; margin:20px 0;}
+    .progress-dot{width:12px; height:12px; border-radius:50%; background:#ddd; transition:all 0.3s;}
+    .progress-dot.active{background:var(--pink); transform:scale(1.3);}
+    .progress-dot.completed{background:var(--pink-light);}
+    .quiz-question{font-size:24px; color:var(--pink-dark); margin:30px 0; font-weight:700; min-height:80px; display:flex; align-items:center; justify-content:center;}
+    
+    /* Falling hearts animation */
+    .falling-hearts{position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:1;}
+    .falling-heart{position:absolute; font-size:20px; animation:fall linear infinite; opacity:0.7;}
+    @keyframes fall{
+      0%{top:-10%; transform:translateX(0) rotate(0deg);}
+      100%{top:110%; transform:translateX(20px) rotate(360deg);}
+    }
+    
     .photo-view{ text-align:center; padding:20px 24px 50px; }
     .photo-container {
       position: relative;
@@ -183,10 +202,14 @@
       .modal-message{padding:20px 20px; margin-top:20px;}
       .modal-message h3{font-size:18px;}
       .modal-message p{font-size:14px;}
+      .quiz-question{font-size:20px; min-height:60px;}
     }
   </style>
 </head>
 <body>
+  <!-- Falling hearts background -->
+  <div class="falling-hearts" id="fallingHearts"></div>
+  
   <div class="wrap">
     <div class="card">
       <header>
@@ -208,14 +231,33 @@
             <p style="margin-top:24px; color:#999; font-size:14px;" id="q-footer">💌 Avec tout mon amour...</p>
           </div>
         </section>
+        
         <section id="view-excellent" class="excellent-view view hidden">
           <h2 id="ex-title">Excellent choix ! 💖</h2>
           <p style="font-size:18px; color:#666; max-width:500px; margin:16px auto;" id="ex-text">Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕</p>
           <div class="choice-buttons">
-            <button class="btn btn-yes" onclick="showPhoto()" style="position:relative; z-index:10;" id="btn-continue">Poursuivre 🎉</button>
+            <button class="btn btn-yes" onclick="showQuiz()" style="position:relative; z-index:10;" id="btn-continue">Poursuivre 🎉</button>
             <button class="btn btn-cancel" id="btnCancel" onmouseenter="moveCancel(event)">Annuler</button>
           </div>
         </section>
+        
+        <!-- NEW QUIZ SECTION -->
+        <section id="view-quiz" class="quiz-view view hidden">
+          <h2 id="quiz-title">Quelques petites questions... 💝</h2>
+          <div class="quiz-progress">
+            <div class="progress-dot" id="dot-0"></div>
+            <div class="progress-dot" id="dot-1"></div>
+            <div class="progress-dot" id="dot-2"></div>
+            <div class="progress-dot" id="dot-3"></div>
+            <div class="progress-dot" id="dot-4"></div>
+          </div>
+          <p class="quiz-question" id="quiz-question">Question...</p>
+          <div class="buttons">
+            <button class="btn btn-yes" onclick="answerQuiz(true)" id="quiz-yes">OUI 💖</button>
+            <button class="btn btn-no" onclick="answerQuiz(false)" id="quiz-no">NON 💔</button>
+          </div>
+        </section>
+        
         <section id="view-photo" class="photo-view view hidden">
           <div class="photo-container">
             <div class="photo-heart-frame"></div>
@@ -229,6 +271,7 @@
             <button class="btn btn-memories" onclick="showGallery()" id="btn-memories">📸 Voir nos souvenirs</button>
           </div>
         </section>
+        
         <section id="view-gallery" class="gallery-view view hidden">
           <h2 id="gallery-title">Nos précieux souvenirs 📸💕</h2>
           <p style="color:#666; margin:16px 0; font-size:16px;" id="gallery-subtitle">Nos premiers moments ensemble... Le début de notre belle histoire d'amour ✨</p>
@@ -278,6 +321,7 @@
             <button class="btn btn-yes" onclick="showPhoto()" id="btn-back-photo">❤️ Retour</button>
           </div>
         </section>
+        
         <section id="view-no" class="no-view view hidden">
           <h2 id="no-title">Oh non... tu as dit NON ? 😢</h2>
           <p style="color:#555;" id="no-subtitle">Bon, si c'est comme ça... choisis une option ! 😄</p>
@@ -374,6 +418,8 @@
   <script>
     let currentLang = 'fr';
     let currentImageIndex = 0;
+    let currentQuizIndex = 0;
+    
     const galleryImages = [
       'images/gallery-1.jpg',
       'images/gallery-2.jpg',
@@ -386,6 +432,91 @@
       'images/gallery-9.jpg',
       'images/gallery-10.jpg'
     ];
+    
+    // Quiz questions
+    const quizQuestions = {
+      fr: [
+        { question: "Est-ce que tu m'aimes vraiment ? 💕", correctAnswer: true },
+        { question: "Tu es sûre de ta réponse ? 🤔", correctAnswer: true },
+        { question: "Tu ne vas pas changer d'avis ? 😊", correctAnswer: true },
+        { question: "Promis ? 🥺", correctAnswer: true },
+        { question: "Tu veux annuler maintenant ? 😈", correctAnswer: false } // PIÈGE!
+      ],
+      en: [
+        { question: "Do you really love me? 💕", correctAnswer: true },
+        { question: "Are you sure about your answer? 🤔", correctAnswer: true },
+        { question: "You won't change your mind? 😊", correctAnswer: true },
+        { question: "Promise? 🥺", correctAnswer: true },
+        { question: "Do you want to cancel now? 😈", correctAnswer: false } // TRAP!
+      ]
+    };
+    
+    // Falling hearts animation
+    function createFallingHeart() {
+      const heartsContainer = document.getElementById('fallingHearts');
+      const heart = document.createElement('div');
+      heart.className = 'falling-heart';
+      heart.innerHTML = ['💕', '❤️', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+      heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      heartsContainer.appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+    
+    // Create falling hearts continuously
+    setInterval(createFallingHeart, 300);
+    
+    // Quiz functions
+    function showQuiz() {
+      hideAll();
+      currentQuizIndex = 0;
+      document.getElementById('view-quiz').classList.remove('hidden');
+      updateQuizQuestion();
+    }
+    
+    function updateQuizQuestion() {
+      const questions = quizQuestions[currentLang];
+      const question = questions[currentQuizIndex];
+      
+      document.getElementById('quiz-question').textContent = question.question;
+      
+      // Update progress dots
+      for (let i = 0; i < 5; i++) {
+        const dot = document.getElementById('dot-' + i);
+        dot.classList.remove('active', 'completed');
+        if (i < currentQuizIndex) {
+          dot.classList.add('completed');
+        } else if (i === currentQuizIndex) {
+          dot.classList.add('active');
+        }
+      }
+    }
+    
+    function answerQuiz(answer) {
+      const questions = quizQuestions[currentLang];
+      const currentQuestion = questions[currentQuizIndex];
+      
+      // Check if answer is correct
+      if (answer === currentQuestion.correctAnswer) {
+        // Correct answer
+        currentQuizIndex++;
+        
+        if (currentQuizIndex < questions.length) {
+          // Next question
+          updateQuizQuestion();
+        } else {
+          // All questions answered correctly!
+          showPhoto();
+        }
+      } else {
+        // Wrong answer - go to NO page
+        showNo();
+      }
+    }
     
     const romanticMessages = {
       fr: [
@@ -486,6 +617,9 @@
         exText: 'Je savais que tu dirais oui ! Tu es la meilleure décision de ma vie 💕',
         btnContinue: 'Poursuivre 🎉',
         btnCancel: 'Annuler',
+        quizTitle: 'Quelques petites questions... 💝',
+        quizYes: 'OUI 💖',
+        quizNo: 'NON 💔',
         photoTitle: 'Je t\'aime — my budi 💕',
         loveText: 'je t\'aime ❤️ pour toujours',
         photoText: 'Merci d\'avoir dit OUI ! Tu es la personne la plus spéciale dans ma vie. Chaque moment avec toi est magique ✨',
@@ -539,6 +673,9 @@
         exText: 'I knew you\'d say yes! You are the best decision of my life 💕',
         btnContinue: 'Continue 🎉',
         btnCancel: 'Cancel',
+        quizTitle: 'A few little questions... 💝',
+        quizYes: 'YES 💖',
+        quizNo: 'NO 💔',
         photoTitle: 'I love you — my budi 💕',
         loveText: 'I love you ❤️ forever',
         photoText: 'Thank you for saying YES! You are the most special person in my life. Every moment with you is magical ✨',
@@ -603,6 +740,9 @@
       document.getElementById('ex-text').textContent = t.exText;
       document.getElementById('btn-continue').textContent = t.btnContinue;
       document.getElementById('btnCancel').textContent = t.btnCancel;
+      document.getElementById('quiz-title').textContent = t.quizTitle;
+      document.getElementById('quiz-yes').textContent = t.quizYes;
+      document.getElementById('quiz-no').textContent = t.quizNo;
       document.getElementById('photo-title').textContent = t.photoTitle;
       document.getElementById('love-text').textContent = t.loveText;
       document.getElementById('photo-text').textContent = t.photoText;
@@ -645,10 +785,17 @@
       if(modal.classList.contains('active')) {
         updateModalMessage(currentImageIndex);
       }
+      
+      // Update quiz question if on quiz page
+      const quizView = document.getElementById('view-quiz');
+      if(!quizView.classList.contains('hidden')) {
+        updateQuizQuestion();
+      }
     }
 
     const viewQuestion = document.getElementById('view-question');
     const viewExcellent = document.getElementById('view-excellent');
+    const viewQuiz = document.getElementById('view-quiz');
     const viewPhoto = document.getElementById('view-photo');
     const viewGallery = document.getElementById('view-gallery');
     const viewNo = document.getElementById('view-no');
@@ -657,6 +804,7 @@
     function hideAll(){
       viewQuestion.classList.add('hidden');
       viewExcellent.classList.add('hidden');
+      viewQuiz.classList.add('hidden');
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
       viewNo.classList.add('hidden');
@@ -684,7 +832,6 @@
       hideAll();
       viewGallery.classList.remove('hidden');
     }
-    
     function showNo(){
       hideAll();
       viewNo.classList.remove('hidden');
