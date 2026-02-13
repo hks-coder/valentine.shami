@@ -1,4 +1,4 @@
-         <!doctype html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
@@ -77,6 +77,99 @@
     .progress-dot.active{background:var(--pink); transform:scale(1.3);}
     .progress-dot.completed{background:var(--pink-light);}
     .quiz-question{font-size:24px; color:var(--pink-dark); margin:30px 0; font-weight:700; min-height:80px; display:flex; align-items:center; justify-content:center;}
+    
+    /* Dark trap page styles */
+    .dark-trap-view{
+      text-align:center; 
+      padding:40px 24px; 
+      background:linear-gradient(135deg, #1a0a0f, #2d1520);
+      min-height:400px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+    .dark-trap-view h2{
+      color:#ff4757; 
+      font-size:36px; 
+      margin:20px 0; 
+      font-weight:800;
+      text-shadow: 0 0 20px rgba(255,71,87,0.5);
+      animation: pulse-red 2s ease-in-out infinite;
+    }
+    .dark-trap-view p{
+      color:#fff; 
+      font-size:20px; 
+      margin:16px 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    @keyframes pulse-red {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    .trap-question-view{
+      text-align:center; 
+      padding:40px 24px;
+      background:linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      min-height:400px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+    .trap-question-view h2{
+      color:#ff6b6b; 
+      font-size:32px; 
+      margin:30px 0; 
+      font-weight:800;
+      text-shadow: 0 0 15px rgba(255,107,107,0.6);
+    }
+    .trap-question-view p{
+      color:#ddd; 
+      font-size:18px; 
+      margin:20px 0;
+      max-width:600px;
+    }
+    .trap-buttons{
+      position:relative;
+      display:flex;
+      justify-content:center;
+      gap:16px;
+      margin-top:40px;
+      min-height:100px;
+      width:100%;
+      max-width:400px;
+    }
+    .btn-trap-yes{
+      background:linear-gradient(135deg, #ee5a6f, #f66d86);
+      color:#fff;
+      padding:16px 40px;
+      border-radius:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:all 0.3s;
+      border:none;
+      font-size:18px;
+      box-shadow:0 8px 20px rgba(238,90,111,0.4);
+      position:relative;
+      z-index:10;
+    }
+    .btn-trap-yes:hover{
+      transform:scale(1.05);
+      box-shadow:0 10px 25px rgba(238,90,111,0.6);
+    }
+    .btn-trap-no{
+      background:#555;
+      color:#fff;
+      padding:16px 40px;
+      border-radius:14px;
+      font-weight:800;
+      cursor:pointer;
+      border:none;
+      font-size:18px;
+      position:absolute;
+      transition:all 0.1s ease;
+    }
     
     /* Falling hearts animation */
     .falling-hearts{position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:1;}
@@ -203,6 +296,7 @@
       .modal-message h3{font-size:18px;}
       .modal-message p{font-size:14px;}
       .quiz-question{font-size:20px; min-height:60px;}
+      .dark-trap-view h2, .trap-question-view h2{font-size:26px;}
     }
   </style>
 </head>
@@ -232,7 +326,7 @@
           </div>
         </section>
         
-        <!-- QUIZ SECTION (AVANT Excellent choix) -->
+        <!-- QUIZ SECTION -->
         <section id="view-quiz" class="quiz-view view hidden">
           <h2 id="quiz-title">Quelques petites questions... 💝</h2>
           <div class="quiz-progress">
@@ -246,6 +340,23 @@
           <div class="buttons">
             <button class="btn btn-yes" onclick="answerQuiz(true)" id="quiz-yes">OUI 💖</button>
             <button class="btn btn-no" onclick="answerQuiz(false)" id="quiz-no">NON 💔</button>
+          </div>
+        </section>
+        
+        <!-- DARK TRAP PAGE (après question 5) -->
+        <section id="view-dark-trap" class="dark-trap-view view hidden">
+          <h2 id="dark-trap-title">😈 Oups... 😈</h2>
+          <p id="dark-trap-text" style="font-size:22px; margin:30px 0;">Tu es maintenant forcée de voir le NON...</p>
+          <p id="dark-trap-subtitle" style="font-size:16px; opacity:0.8;">Il n'y a aucune échappatoire 👻</p>
+        </section>
+        
+        <!-- TRAP QUESTION PAGE (la question piège finale) -->
+        <section id="view-trap-question" class="trap-question-view view hidden">
+          <h2 id="trap-title">⚠️ Dernière chance... ⚠️</h2>
+          <p id="trap-subtitle">Est-ce que tu veux vraiment aller vers la page NON ? 🤔</p>
+          <div class="trap-buttons">
+            <button class="btn-trap-yes" onclick="showNo()" id="btn-trap-yes">OUI 😈</button>
+            <button class="btn-trap-no" id="btnTrapNo" onmouseenter="moveTrapNo(event)">NON 💔</button>
           </div>
         </section>
         
@@ -440,14 +551,14 @@
         { question: "Tu es sûre de ta réponse ? 🤔", correctAnswer: true },
         { question: "Tu ne vas pas changer d'avis ? 😊", correctAnswer: true },
         { question: "Promis ? 🥺", correctAnswer: true },
-        { question: "Tu veux annuler maintenant ? 😈", correctAnswer: false } // PIÈGE - mais peu importe la réponse!
+        { question: "Tu veux annuler maintenant ? 😈", correctAnswer: false }
       ],
       en: [
         { question: "Do you really love me? 💕", correctAnswer: true },
         { question: "Are you sure about your answer? 🤔", correctAnswer: true },
         { question: "You won't change your mind? 😊", correctAnswer: true },
         { question: "Promise? 🥺", correctAnswer: true },
-        { question: "Do you want to cancel now? 😈", correctAnswer: false } // TRAP - but doesn't matter!
+        { question: "Do you want to cancel now? 😈", correctAnswer: false }
       ]
     };
     
@@ -467,7 +578,6 @@
       }, 8000);
     }
     
-    // Create falling hearts continuously
     setInterval(createFallingHeart, 300);
     
     // Quiz functions
@@ -484,7 +594,6 @@
       
       document.getElementById('quiz-question').textContent = question.question;
       
-      // Update progress dots
       for (let i = 0; i < 5; i++) {
         const dot = document.getElementById('dot-' + i);
         dot.classList.remove('active', 'completed');
@@ -500,28 +609,54 @@
       const questions = quizQuestions[currentLang];
       const currentQuestion = questions[currentQuizIndex];
       
-      // Si c'est la dernière question (index 4), TOUJOURS aller vers NON
+      // Si c'est la dernière question (index 4), aller vers la page dark trap
       if (currentQuizIndex === 4) {
-        showNo();
+        showDarkTrap();
         return;
       }
       
-      // Pour les autres questions, vérifier la réponse
       if (answer === currentQuestion.correctAnswer) {
-        // Correct answer
         currentQuizIndex++;
         
         if (currentQuizIndex < questions.length) {
-          // Next question
           updateQuizQuestion();
         } else {
-          // All questions answered correctly! Go to Excellent choix
           showExcellent();
         }
       } else {
-        // Wrong answer - go to NO page
         showNo();
       }
+    }
+    
+    // Dark trap page functions
+    function showDarkTrap() {
+      hideAll();
+      document.getElementById('view-dark-trap').classList.remove('hidden');
+      // Après 3 secondes, aller vers la page trap question
+      setTimeout(function() {
+        showTrapQuestion();
+      }, 3000);
+    }
+    
+    function showTrapQuestion() {
+      hideAll();
+      document.getElementById('view-trap-question').classList.remove('hidden');
+      positionTrapNo();
+    }
+    
+    function positionTrapNo() {
+      const btnTrapNo = document.getElementById('btnTrapNo');
+      const maxX = 250;
+      const maxY = 150;
+      const randomX = Math.random() * maxX - maxX/2;
+      const randomY = Math.random() * maxY - maxY/2;
+      btnTrapNo.style.left = randomX + 'px';
+      btnTrapNo.style.top = randomY + 'px';
+    }
+    
+    function moveTrapNo(event) {
+      if(event) event.preventDefault();
+      positionTrapNo();
     }
     
     const romanticMessages = {
@@ -626,6 +761,13 @@
         quizTitle: 'Quelques petites questions... 💝',
         quizYes: 'OUI 💖',
         quizNo: 'NON 💔',
+        darkTrapTitle: '😈 Oups... 😈',
+        darkTrapText: 'Tu es maintenant forcée de voir le NON...',
+        darkTrapSubtitle: 'Il n\'y a aucune échappatoire 👻',
+        trapTitle: '⚠️ Dernière chance... ⚠️',
+        trapSubtitle: 'Est-ce que tu veux vraiment aller vers la page NON ? 🤔',
+        btnTrapYes: 'OUI 😈',
+        btnTrapNo: 'NON 💔',
         photoTitle: 'Je t\'aime — my budi 💕',
         loveText: 'je t\'aime ❤️ pour toujours',
         photoText: 'Merci d\'avoir dit OUI ! Tu es la personne la plus spéciale dans ma vie. Chaque moment avec toi est magique ✨',
@@ -682,6 +824,13 @@
         quizTitle: 'A few little questions... 💝',
         quizYes: 'YES 💖',
         quizNo: 'NO 💔',
+        darkTrapTitle: '😈 Oops... 😈',
+        darkTrapText: 'You are now forced to see the NO...',
+        darkTrapSubtitle: 'There is no escape 👻',
+        trapTitle: '⚠️ Last chance... ⚠️',
+        trapSubtitle: 'Do you really want to go to the NO page? 🤔',
+        btnTrapYes: 'YES 😈',
+        btnTrapNo: 'NO 💔',
         photoTitle: 'I love you — my budi 💕',
         loveText: 'I love you ❤️ forever',
         photoText: 'Thank you for saying YES! You are the most special person in my life. Every moment with you is magical ✨',
@@ -706,7 +855,7 @@
         argsList: ['I give the best hugs in the world! 🤗','I can cook... well, order food! 🍕','I know all the bad jokes! 😂','I\'m an expert at Netflix & Chill! 📺','And most importantly... I love you like crazy! 💕'],
         threatTitle: '😱 Consequences of your NO',
         threatIntro: 'Warning, here\'s what will happen:',
-        threatList: ['I won\'t change baby\'s diapers anymore! 👶💩','I\'ll let baby cry all night long! 👶😭','I\'ll watch our favorite movies without you! 📺','I\'ll twerk in front of your parents! 💃🍑','I\'ll learn to tango... alone! 💃','I\'ll become friends with your ex! 😱','We\'re going to have a 2nd baby! 👶👶💕'],
+                       threatList: ['I won\'t change baby\'s diapers anymore! 👶💩','I\'ll let baby cry all night long! 👶😭','I\'ll watch our favorite movies without you! 📺','I\'ll twerk in front of your parents! 💃🍑','I\'ll learn to tango... alone! 💃','I\'ll become friends with your ex! 😱','We\'re going to have a 2nd baby! 👶👶💕'],
         stillTitle: '⚠️ WARNING!',
         stillText: 'I\'m going to post this ugly photo on Facebook and Instagram!',
         btnAgree: 'Okay!!! 😱',
@@ -749,6 +898,13 @@
       document.getElementById('quiz-title').textContent = t.quizTitle;
       document.getElementById('quiz-yes').textContent = t.quizYes;
       document.getElementById('quiz-no').textContent = t.quizNo;
+      document.getElementById('dark-trap-title').textContent = t.darkTrapTitle;
+      document.getElementById('dark-trap-text').textContent = t.darkTrapText;
+      document.getElementById('dark-trap-subtitle').textContent = t.darkTrapSubtitle;
+      document.getElementById('trap-title').textContent = t.trapTitle;
+      document.getElementById('trap-subtitle').textContent = t.trapSubtitle;
+      document.getElementById('btn-trap-yes').textContent = t.btnTrapYes;
+      document.getElementById('btnTrapNo').textContent = t.btnTrapNo;
       document.getElementById('photo-title').textContent = t.photoTitle;
       document.getElementById('love-text').textContent = t.loveText;
       document.getElementById('photo-text').textContent = t.photoText;
@@ -792,7 +948,6 @@
         updateModalMessage(currentImageIndex);
       }
       
-      // Update quiz question if on quiz page
       const quizView = document.getElementById('view-quiz');
       if(!quizView.classList.contains('hidden')) {
         updateQuizQuestion();
@@ -802,6 +957,8 @@
     const viewQuestion = document.getElementById('view-question');
     const viewExcellent = document.getElementById('view-excellent');
     const viewQuiz = document.getElementById('view-quiz');
+    const viewDarkTrap = document.getElementById('view-dark-trap');
+    const viewTrapQuestion = document.getElementById('view-trap-question');
     const viewPhoto = document.getElementById('view-photo');
     const viewGallery = document.getElementById('view-gallery');
     const viewNo = document.getElementById('view-no');
@@ -811,6 +968,8 @@
       viewQuestion.classList.add('hidden');
       viewExcellent.classList.add('hidden');
       viewQuiz.classList.add('hidden');
+      viewDarkTrap.classList.add('hidden');
+      viewTrapQuestion.classList.add('hidden');
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
       viewNo.classList.add('hidden');
@@ -845,7 +1004,7 @@
       document.querySelectorAll('.funny-content').forEach(function(el){ 
         el.classList.remove('active'); 
       });
-          }
+    }
     
     function showFunnyContent(id){
       document.querySelectorAll('.funny-content').forEach(function(el){ 
