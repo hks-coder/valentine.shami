@@ -306,6 +306,101 @@
     .gallery-overlay{position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(255,90,134,0.95), rgba(255,90,134,0.7)); color:#fff; padding:16px 12px; opacity:0; transition:opacity 0.3s; font-weight:700; font-size:13px; line-height:1.4;}
     .gallery-item:hover .gallery-overlay{opacity:1;}
     
+    /* Question finale page styles */
+    .final-question-view {
+      text-align: center;
+      padding: 40px 24px 50px;
+      background: linear-gradient(180deg, #fff, #fff7fb);
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .final-question-view h2 {
+      color: var(--pink);
+      font-size: 36px;
+      margin: 20px 0;
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 90, 134, 0.15);
+    }
+
+    .final-question-view p {
+      color: #666;
+      font-size: 20px;
+      margin: 16px 0;
+      max-width: 600px;
+    }
+
+    .final-question-view .subtitle {
+      color: #888;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    /* Video page styles */
+    .video-view {
+      text-align: center;
+      padding: 20px 24px 50px;
+    }
+
+    .video-view h2 {
+      color: var(--pink);
+      font-size: 32px;
+      margin: 20px 0;
+      font-weight: 800;
+    }
+
+    .video-view p {
+      color: #666;
+      font-size: 18px;
+      margin: 16px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .video-container {
+      position: relative;
+      max-width: 800px;
+      margin: 30px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(255, 90, 134, 0.3);
+      background: #000;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .video-message {
+      background: linear-gradient(135deg, var(--pink), var(--pink-light));
+      color: #fff;
+      padding: 24px 32px;
+      border-radius: 16px;
+      margin: 24px auto;
+      max-width: 600px;
+      box-shadow: 0 10px 30px rgba(255, 90, 134, 0.4);
+      animation: heartbeat 2s infinite;
+    }
+
+    .video-message h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .video-message p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #fff;
+    }
+    
     /* Modal styles */
     .modal{display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.95); align-items:center; justify-content:center; overflow-y:auto; padding:20px;}
     .modal.active{display:flex;}
@@ -345,6 +440,10 @@
       .modal-message p{font-size:14px;}
       .quiz-question{font-size:20px; min-height:60px;}
       .dark-trap-view h2, .trap-question-view h2{font-size:26px;}
+      .final-question-view h2{font-size:28px;}
+      .video-view h2{font-size:26px;}
+      .video-message{padding:20px 20px;}
+      .video-message h3{font-size:20px;}
     }
   </style>
 </head>
@@ -483,7 +582,42 @@
             </div>
           </div>
           <div class="buttons" style="margin-top:30px;">
-            <button class="btn btn-yes" onclick="showPhoto()" id="btn-back-photo">❤️ Retour</button>
+            <button class="btn btn-yes" onclick="showFinalQuestion()" id="btn-continue-gallery">➡️ Continuer</button>
+          </div>
+        </section>
+        
+        <!-- PAGE QUESTION FINALE -->
+        <section id="view-final-question" class="final-question-view view hidden">
+          <h2 id="final-q-title">Est-ce que tu veux voir autre chose ? 🤔💕</h2>
+          <p id="final-q-subtitle">J'ai encore une petite surprise pour toi...</p>
+          <p class="subtitle" id="final-q-hint">💝 Une surprise très spéciale t'attend ! 💝</p>
+          
+          <div class="buttons" style="margin-top:40px;">
+            <button class="btn btn-yes" onclick="showVideo()" id="btn-final-yes">OUI 😍</button>
+            <button class="btn btn-no" onclick="showPhoto()" id="btn-final-no">NON, retour 💕</button>
+          </div>
+        </section>
+
+        <!-- PAGE VIDÉO -->
+        <section id="view-video" class="video-view view hidden">
+          <h2 id="video-title">Un message spécial pour toi 🎥💕</h2>
+          <p id="video-subtitle">Voici une petite vidéo que j'ai préparée rien que pour toi... 💝</p>
+          
+          <div class="video-container">
+            <video id="mainVideo" controls>
+              <source src="videos/message-amour.mp4" type="video/mp4">
+              Ton navigateur ne supporte pas la vidéo.
+            </video>
+          </div>
+          
+          <div class="video-message">
+            <h3 id="video-msg-title">Je t'aime de tout mon cœur 💖</h3>
+            <p id="video-msg-text">Cette vidéo capture tous les moments précieux que nous avons partagés ensemble. Chaque seconde avec toi est un cadeau. Tu es mon monde, mon bonheur, ma vie. Je t'aime aujourd'hui, demain et pour toujours. 💕</p>
+          </div>
+          
+          <div class="buttons" style="margin-top:30px;">
+            <button class="btn btn-yes" onclick="showGallery()" id="btn-back-gallery">📸 Retour aux souvenirs</button>
+            <button class="btn btn-memories" onclick="showPhoto()" id="btn-back-photo-video">❤️ Retour à la photo</button>
           </div>
         </section>
         
@@ -860,7 +994,7 @@
         {
           title: "Our first photo together 💕",
           text: "The day it all began... My heart already knew you were the one I wanted to spend the rest of my life with. This photo captures the beginning of our most beautiful adventure."
-        },
+                  },
         {
           title: "The day my heart fell 💕",
           text: "I remember this moment as if it were yesterday. Your eyes, your smile... I knew instantly that my life had just changed forever. You became my everything."
@@ -919,7 +1053,7 @@
         darkTrapText: 'Tu es maintenant forcée de voir le NON...',
         darkTrapSubtitle: 'Redirection dans 3... 👻',
         trapTitle: '⚠️ Dernière chance... ⚠️',
-        trapSubtitle: 'Est-ce que tu veux vraiment aller vers la page NON ? 🤔',
+        trapSubtitle: 'Est-ce que tu veux vraiment aller vers la page NON ? ����',
         btnTrapYes: 'OUI 😈',
         btnTrapNo: 'NON 💔',
         photoTitle: 'Je t\'aime — my budi 💕',
@@ -929,8 +1063,19 @@
         btnMemories: '📸 Voir nos souvenirs',
         galleryTitle: 'Nos précieux souvenirs 📸💕',
         gallerySubtitle: 'Nos premiers moments ensemble... Le début de notre belle histoire d\'amour ✨',
-        btnBackPhoto: '❤️ Retour',
-                noTitle: 'Oh non... tu as dit NON ? 😢',
+        btnContinueGallery: '➡️ Continuer',
+        finalQTitle: 'Est-ce que tu veux voir autre chose ? 🤔💕',
+        finalQSubtitle: 'J\'ai encore une petite surprise pour toi...',
+        finalQHint: '💝 Une surprise très spéciale t\'attend ! 💝',
+        btnFinalYes: 'OUI 😍',
+        btnFinalNo: 'NON, retour 💕',
+        videoTitle: 'Un message spécial pour toi 🎥💕',
+        videoSubtitle: 'Voici une petite vidéo que j\'ai préparée rien que pour toi... 💝',
+        videoMsgTitle: 'Je t\'aime de tout mon cœur 💖',
+        videoMsgText: 'Cette vidéo capture tous les moments précieux que nous avons partagés ensemble. Chaque seconde avec toi est un cadeau. Tu es mon monde, mon bonheur, ma vie. Je t\'aime aujourd\'hui, demain et pour toujours. 💕',
+        btnBackGallery: '📸 Retour aux souvenirs',
+        btnBackPhotoVideo: '❤️ Retour à la photo',
+        noTitle: 'Oh non... tu as dit NON ? 😢',
         noSubtitle: 'Bon, si c\'est comme ça... choisis une option ! 😄',
         funnyBtn1: '🎵 Tara baji lai lai',
         funnyBtn2: '💔 Pourquoi tu me brises le cœur ?',
@@ -956,7 +1101,7 @@
           'Le jour où mon cœur a chaviré 💕',
           'Ton sourire qui illumine ma vie 💕',
           'Nos premiers instants magiques 💕',
-          'Quand notre complicité est née 💕',
+          'Quand notre complicité est née ����',
           'Le bonheur dans tes yeux 💕',
           'Nos premiers moments de tendresse 💕',
           'Des émotions inoubliables 💕',
@@ -992,7 +1137,18 @@
         btnMemories: '📸 See our memories',
         galleryTitle: 'Our precious memories 📸💕',
         gallerySubtitle: 'Our first moments together... The beginning of our beautiful love story ✨',
-        btnBackPhoto: '❤️ Back',
+        btnContinueGallery: '➡️ Continue',
+        finalQTitle: 'Do you want to see something else? 🤔💕',
+        finalQSubtitle: 'I have another little surprise for you...',
+        finalQHint: '💝 A very special surprise awaits you! 💝',
+        btnFinalYes: 'YES 😍',
+        btnFinalNo: 'NO, go back 💕',
+        videoTitle: 'A special message for you 🎥💕',
+        videoSubtitle: 'Here\'s a little video I prepared just for you... 💝',
+        videoMsgTitle: 'I love you with all my heart 💖',
+        videoMsgText: 'This video captures all the precious moments we\'ve shared together. Every second with you is a gift. You are my world, my happiness, my life. I love you today, tomorrow and forever. 💕',
+        btnBackGallery: '📸 Back to memories',
+        btnBackPhotoVideo: '❤️ Back to photo',
         noTitle: 'Oh no... you said NO? 😢',
         noSubtitle: 'Well, if that\'s how it is... choose an option! 😄',
         funnyBtn1: '🎵 Tara baji lai lai',
@@ -1065,7 +1221,18 @@
       document.getElementById('btn-memories').textContent = t.btnMemories;
       document.getElementById('gallery-title').textContent = t.galleryTitle;
       document.getElementById('gallery-subtitle').textContent = t.gallerySubtitle;
-      document.getElementById('btn-back-photo').textContent = t.btnBackPhoto;
+      document.getElementById('btn-continue-gallery').textContent = t.btnContinueGallery;
+      document.getElementById('final-q-title').textContent = t.finalQTitle;
+      document.getElementById('final-q-subtitle').textContent = t.finalQSubtitle;
+      document.getElementById('final-q-hint').textContent = t.finalQHint;
+      document.getElementById('btn-final-yes').textContent = t.btnFinalYes;
+      document.getElementById('btn-final-no').textContent = t.btnFinalNo;
+      document.getElementById('video-title').textContent = t.videoTitle;
+      document.getElementById('video-subtitle').textContent = t.videoSubtitle;
+      document.getElementById('video-msg-title').textContent = t.videoMsgTitle;
+      document.getElementById('video-msg-text').textContent = t.videoMsgText;
+      document.getElementById('btn-back-gallery').textContent = t.btnBackGallery;
+      document.getElementById('btn-back-photo-video').textContent = t.btnBackPhotoVideo;
       document.getElementById('no-title').textContent = t.noTitle;
       document.getElementById('no-subtitle').textContent = t.noSubtitle;
       document.getElementById('funny-btn-1').textContent = t.funnyBtn1;
@@ -1114,6 +1281,8 @@
     const viewTrapQuestion = document.getElementById('view-trap-question');
     const viewPhoto = document.getElementById('view-photo');
     const viewGallery = document.getElementById('view-gallery');
+    const viewFinalQuestion = document.getElementById('view-final-question');
+    const viewVideo = document.getElementById('view-video');
     const viewNo = document.getElementById('view-no');
     const btnCancel = document.getElementById('btnCancel');
     
@@ -1125,6 +1294,8 @@
       viewTrapQuestion.classList.add('hidden');
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
+      viewFinalQuestion.classList.add('hidden');
+      viewVideo.classList.add('hidden');
       viewNo.classList.add('hidden');
       stopShow();
     }
@@ -1143,7 +1314,7 @@
     function showPhoto(){
       hideAll();
       viewPhoto.classList.remove('hidden');
-      megaConfettiBurst(); // Confettis explosifs !
+      megaConfettiBurst();
       startShow();
     }
     
@@ -1152,13 +1323,23 @@
       viewGallery.classList.remove('hidden');
     }
     
+    function showFinalQuestion(){
+      hideAll();
+      viewFinalQuestion.classList.remove('hidden');
+    }
+
+    function showVideo(){
+      hideAll();
+      viewVideo.classList.remove('hidden');
+      megaConfettiBurst();
+    }
+    
     function showNo(){
       hideAll();
       viewNo.classList.remove('hidden');
       document.querySelectorAll('.funny-content').forEach(function(el){ 
         el.classList.remove('active'); 
       });
-      // Arrête la musique si elle joue
       const audio = document.getElementById('taraBajiAudio');
       audio.pause();
       isTaraPlaying = false;
