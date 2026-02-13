@@ -1,4 +1,4 @@
-<!doctype html>
+         <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
@@ -387,11 +387,11 @@
               <span title="Instagram">📷</span>
             </div>
             <div style="margin-top:24px;">
-              <button class="btn btn-danger" onclick="showQuestion()" id="btn-agree">D'accord !!! 😱</button>
+              <button class="btn btn-danger" onclick="showExcellent()" id="btn-agree">D'accord !!! 😱</button>
             </div>
           </div>
           <div class="buttons" style="margin-top:32px;">
-            <button class="btn btn-yes" onclick="showQuestion()" id="btn-finally">❤️ Finalement... OUI !</button>
+            <button class="btn btn-yes" onclick="showExcellent()" id="btn-finally">❤️ Finalement... OUI !</button>
           </div>
         </section>
       </main>
@@ -440,14 +440,14 @@
         { question: "Tu es sûre de ta réponse ? 🤔", correctAnswer: true },
         { question: "Tu ne vas pas changer d'avis ? 😊", correctAnswer: true },
         { question: "Promis ? 🥺", correctAnswer: true },
-        { question: "Tu veux annuler maintenant ? 😈", correctAnswer: false } // PIÈGE!
+        { question: "Tu veux annuler maintenant ? 😈", correctAnswer: false } // PIÈGE - mais peu importe la réponse!
       ],
       en: [
         { question: "Do you really love me? 💕", correctAnswer: true },
         { question: "Are you sure about your answer? 🤔", correctAnswer: true },
         { question: "You won't change your mind? 😊", correctAnswer: true },
         { question: "Promise? 🥺", correctAnswer: true },
-        { question: "Do you want to cancel now? 😈", correctAnswer: false } // TRAP!
+        { question: "Do you want to cancel now? 😈", correctAnswer: false } // TRAP - but doesn't matter!
       ]
     };
     
@@ -500,7 +500,13 @@
       const questions = quizQuestions[currentLang];
       const currentQuestion = questions[currentQuizIndex];
       
-      // Check if answer is correct
+      // Si c'est la dernière question (index 4), TOUJOURS aller vers NON
+      if (currentQuizIndex === 4) {
+        showNo();
+        return;
+      }
+      
+      // Pour les autres questions, vérifier la réponse
       if (answer === currentQuestion.correctAnswer) {
         // Correct answer
         currentQuizIndex++;
@@ -706,7 +712,7 @@
         btnAgree: 'Okay!!! 😱',
         btnFinally: '❤️ Finally... YES!',
         overlays: [
-          'Our first photo together Love you my budi  💕',
+          'Our first photo together 💕',
           'The day my heart fell 💕',
           'Your smile that lights up my life 💕',
           'Our first magical moments 💕',
@@ -808,8 +814,9 @@
       viewPhoto.classList.add('hidden');
       viewGallery.classList.add('hidden');
       viewNo.classList.add('hidden');
-            stopShow();
+      stopShow();
     }
+    
     function showQuestion(){
       hideAll();
       viewQuestion.classList.remove('hidden');
@@ -838,7 +845,7 @@
       document.querySelectorAll('.funny-content').forEach(function(el){ 
         el.classList.remove('active'); 
       });
-    }
+          }
     
     function showFunnyContent(id){
       document.querySelectorAll('.funny-content').forEach(function(el){ 
